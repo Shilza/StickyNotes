@@ -1,0 +1,6 @@
+logfile
+
+.idea
+.env
+
+node_modules/
