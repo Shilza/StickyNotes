@@ -6,8 +6,9 @@ export default gql`
     }
 
     extend type Mutation {
-       createColumn(title: String!) : Column!
+        createColumn(title: String!) : Column!
         removeColumn(columnId: ID!): Boolean
+        renameColumn(columnId: ID!, title: String!): Boolean
     }
 
     type Column {

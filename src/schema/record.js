@@ -7,9 +7,11 @@ export default gql`
 
     extend type Mutation {
         createRecord(text: String!, columnId: ID!): Record!
+        updateRecord(text: String, recordId: ID!): Boolean
     }
 
     type Record {
+        id: ID!,
         text: String!,
         columnId: ID!
     }

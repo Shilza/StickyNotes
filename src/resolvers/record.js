@@ -16,5 +16,17 @@ export default {
                 columnId
             });
         },
+
+        updateRecord: async (
+            parent,
+            {text, recordId},
+            {models},
+        ) => {
+            await models.Record.findByIdAndUpdate(recordId,
+                {
+                    text
+                });
+            return true;
+        }
     }
 }
