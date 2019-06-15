@@ -1,39 +1,44 @@
-import React from "react";
+import React, {useRef, useEffect} from "react";
 import {SortableContainer, SortableElement} from "react-sortable-hoc";
 import {Card} from "../molecules";
 import styled from "styled-components";
-import {getRecordsByColumnId} from "../selectors";
-import {$dashboard, reorderRecords} from "../models/dashboard";
-import {useStore} from "effector-react";
+import {reorderRecords} from "../models/dashboard";
 
 const CardsList = styled.ul`
    overflow-y: auto;
 `;
 
-export const Cards = ({columnId}) => {
-    let dashboard = useStore($dashboard);
-    let records = getRecordsByColumnId(dashboard, columnId);
+export const Cards = ({columnId, records}) => {
+    let containerRef = useRef(null);
+
+    useEffect(() => {
+        containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }, [records.length]);
 
     const onSortEnd = ({oldIndex, newIndex}) => {
         reorderRecords({columnId, oldIndex, newIndex});
     };
 
     return (
-        <SortableList items={records} onSortEnd={onSortEnd}/>
+        <SortableList
+            items={records}
+            onSortEnd={onSortEnd}
+            containerRef={containerRef}
+            />
     );
 };
 
-const SortableItem = SortableElement(({value}) => (
-    <Card>
-        {value.text}
+const SortableItem = SortableElement(({item}) => (
+    <Card recordId={item.id}>
+        {item.text}
     </Card>
 ));
 
-const SortableList = SortableContainer(({items}) => (
-    <CardsList>
+const SortableList = SortableContainer(({items, containerRef}) => (
+    <CardsList ref={containerRef}>
         {
-            Array.isArray(items) && items.map((value, index) => (
-                <SortableItem key={`record-${index}`} index={index} value={value}/>
+            Array.isArray(items) && items.map((item, index) => (
+                <SortableItem key={`record-${index}`} index={index} item={item}/>
             ))
         }
     </CardsList>

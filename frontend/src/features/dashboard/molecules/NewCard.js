@@ -38,9 +38,10 @@ export const NewCard = ({createCard, removeNewCard}) => {
     const textRef = useRef(null);
     useOnClickOutside(ref, removeNewCard);
 
-    const onSubmit = event => {
+    const onSubmit = async event => {
         event.preventDefault();
-        createCard(textRef.current.value);
+        await createCard(textRef.current.value);
+        textRef.current.value = '';
     };
 
     return (

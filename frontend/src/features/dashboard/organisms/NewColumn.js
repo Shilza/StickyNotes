@@ -6,7 +6,8 @@ import {Button} from "../../../ui/atoms";
 const Container = styled.div`
     background: #dfe1e6;
     border-radius: 3px;
-    width: 270px;
+    min-width: 270px;
+    min-height: 85px;
     padding: 4px 10px;
     display: flex;
     flex-direction: column;

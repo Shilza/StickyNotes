@@ -16,7 +16,6 @@ export const Boards = () => {
     const onSortEnd = ({oldIndex, newIndex}) => {
         setColumns(arrayMove(columns, oldIndex, newIndex));
     };
-    console.log('update', columns);
 
     return (
         <SortableList axis='x' items={columns} onSortEnd={onSortEnd}/>

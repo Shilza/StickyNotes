@@ -40,7 +40,6 @@ export const Board = withApollo(({client, item}) => {
             columnId: item.id,
             record: result.data.createRecord
         });
-        //setNewCard(false);
     };
 
     const removeNewCard = () => {
@@ -52,7 +51,7 @@ export const Board = withApollo(({client, item}) => {
             <Title icon={<Icon name='ellipsis'/>} columnId={item.id}>
                 {item.title}
             </Title>
-            <Cards columnId={item.id}/>
+            <Cards columnId={item.id} records={item.records}/>
             {
                 newCard
                     ? <NewCard createCard={createCard} removeNewCard={removeNewCard}/>

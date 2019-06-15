@@ -1,8 +1,8 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import styled from "styled-components";
 import {useOnClickOutside} from "../hooks";
 import {OptionsPopoverTitle} from "./OptionsPopoverTitle";
-import {PopoverButton} from "../../../ui/atoms";
+import {Loader, PopoverButton} from "../../../ui/atoms";
 import {withApollo} from "react-apollo";
 import {REMOVE_COLUMN} from "../api";
 import {removeColumn} from "../models/dashboard";
@@ -33,10 +33,12 @@ const Container = styled.div`
 
 export const OptionsPopover = withApollo(({closePopover, columnId, client}) => {
     let popoverRef = useRef(null);
+    let [isLoading, setIsLoading] = useState(false);
 
     useOnClickOutside(popoverRef, closePopover);
 
     const remove = async () => {
+        setIsLoading(true);
         await client.mutate({
             mutation: REMOVE_COLUMN,
             variables: {
@@ -44,13 +46,20 @@ export const OptionsPopover = withApollo(({closePopover, columnId, client}) => {
             }
         });
 
+        setIsLoading(false);
+        closePopover();
         removeColumn(columnId);
     };
 
     return (
         <Container ref={popoverRef}>
             <OptionsPopoverTitle>Actions with list</OptionsPopoverTitle>
-            <PopoverButton onClick={remove}>Remove list</PopoverButton>
+            <PopoverButton onClick={remove} disabled={isLoading}>
+                Remove list
+                {
+                    isLoading && <Loader color='#fff'/>
+                }
+            </PopoverButton>
         </Container>
     );
 });
