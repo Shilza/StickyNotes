@@ -84,6 +84,30 @@ const Plus = styled.div`
 }
 `;
 
+const Edit = styled.div`
+      color: #000;
+      width: 14px;
+      height: 2px;
+      border-radius: 1px;
+      border: solid 1px currentColor;
+      -webkit-transform: rotate(-45deg);
+              transform: rotate(-45deg);
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: -12px;
+      top: -1px;
+      width: 0;
+      height: 0;
+      border-left: solid 5px transparent;
+      border-right: solid 5px currentColor;
+      border-top: solid 2px transparent;
+      border-bottom: solid 2px transparent;
+    }
+
+`;
+
 const getIconByName = name => {
     switch (name) {
         case 'ellipsis':
@@ -92,6 +116,8 @@ const getIconByName = name => {
             return <Close/>;
         case 'plus':
             return <Plus/>;
+        case 'edit':
+            return <Edit/>;
         default:
     }
 };
