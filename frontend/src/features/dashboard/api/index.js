@@ -12,7 +12,7 @@ export const GET_COLUMNS = gql`
     query columns {
         columns {
             title, id, records {
-                text
+                id, text
             }
         }
     }
@@ -21,7 +21,9 @@ export const GET_COLUMNS = gql`
 export const CREATE_COLUMN = gql`
     mutation createColumn ($title: String!) {
         createColumn(title: $title) {
-            title, id
+            title, id, records {
+                text, columnId
+            }
         }
     }
 `;
@@ -29,5 +31,11 @@ export const CREATE_COLUMN = gql`
 export const REMOVE_COLUMN = gql`
     mutation removeColumn ($columnId: ID!) {
         removeColumn(columnId: $columnId)
+    }
+`;
+
+export const UPDATE_RECORD = gql`
+    mutation updateRecord ($recordId: ID!, $text: String!) {
+        updateRecord(recordId: $recordId, text: $text)
     }
 `;
