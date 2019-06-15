@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from "styled-components";
-import {AuthForm} from "../organisms";
+import {AuthForm, Description} from "../organisms";
 import {MainBackground} from "../molecules";
+
+const Cc = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 const Container = styled.div`
     display: flex;
@@ -46,14 +51,17 @@ const AuthFormContainer = styled.div`
 
 export const Welcome = () => {
     return (
-        <Container>
-            <MainBackground/>
-            <AuthSide>
-                <AuthFormContainer>
-                    <Logo>StickyNotes</Logo>
-                    <AuthForm/>
-                </AuthFormContainer>
-            </AuthSide>
-        </Container>
+        <Cc>
+            <Container>
+                <MainBackground/>
+                <AuthSide>
+                    <AuthFormContainer>
+                        <Logo>StickyNotes</Logo>
+                        <AuthForm/>
+                    </AuthFormContainer>
+                </AuthSide>
+            </Container>
+            <Description/>
+        </Cc>
     )
 };
