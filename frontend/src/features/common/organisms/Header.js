@@ -1,19 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from "styled-components";
 import {$auth, resetAuth} from "../models/auth";
 import {useStore} from "effector-react";
 import {withRouter} from "react-router";
 import {withApollo} from "react-apollo";
 import {LOGOUT} from "../api";
-import {LogoutButton} from "../atoms";
 import {Link} from "react-router-dom";
 import {resetDashboard} from "../../dashboard/models/dashboard";
+import {LuminousButton} from "../../../ui/atoms";
 
 const Container = styled.header`
     width: 100%;
     height: 40px;
     box-shadow: inset 0 4px 8px -3px rgba(17, 17, 17, .06);
-    background: #0067a3;
+    background-color: rgba(0, 0, 0, 0.25);
     display: flex;
     justify-content: space-between;
     padding: 4px 20px;
@@ -40,15 +40,20 @@ export const Header = withRouter(withApollo(({client, history}) => {
         history.push('/');
     };
 
+    useEffect(() => {
+        if(window.location.pathname === '/boards')
+            document.getElementById('root').style.backgroundColor = '#0067a3';
+    });
+
     return (
         <>
             {
                 authenticated &&
                 <Container>
                     <LogoLink to={'/dashboard'}>Sticky Notes</LogoLink>
-                    <LogoutButton onClick={logout}>
+                    <LuminousButton green onClick={logout}>
                         Logout
-                    </LogoutButton>
+                    </LuminousButton>
                 </Container>
             }
         </>
