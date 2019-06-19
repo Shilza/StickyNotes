@@ -1,13 +1,21 @@
 import gql from "graphql-tag";
 
 export const GET_COLUMNS = gql`
-    query columns {
-        columns {
+    query columns($title: String!) {
+        columns(title: $title) {
             title, id, index, records {
                 id, text, index, createdAt, marks {
                     id, color, 
                 }
             }
+        }
+    }
+`;
+
+export const GET_BOARD = gql`
+    query board($title: String!) {
+        board(title: $title) {
+            id, title, color
         }
     }
 `;
@@ -23,8 +31,8 @@ export const CREATE_RECORD = gql`
 `;
 
 export const CREATE_COLUMN = gql`
-    mutation createColumn ($title: String!) {
-        createColumn(title: $title) {
+    mutation createColumn ($title: String!, $boardTitle: String!) {
+        createColumn(title: $title, boardTitle: $boardTitle) {
             title, id, index, records {
                 text, columnId
             }
@@ -79,5 +87,23 @@ export const REORDER_COLUMNS = gql`
 export const REORDER_RECORDS = gql`
     mutation reorderRecords($columnId: ID!, $oldIndex: Int!, $newIndex: Int!) {
         reorderRecords(columnId: $columnId, oldIndex: $oldIndex, newIndex: $newIndex)
+    }
+`;
+
+export const REMOVE_BOARD = gql`
+    mutation removeBoard($boardId: ID!) {
+        removeBoard(boardId: $boardId)
+    }
+`;
+
+export const RENAME_BOARD = gql`
+    mutation renameBoard($boardId: ID!, $title: String!) {
+        renameBoard(boardId: $boardId, title: $title)
+    }
+`;
+
+export const CHANGE_BOARD_COLOR = gql`
+    mutation changeBoardColor($boardId: ID!, $color: String!) {
+        changeBoardColor(boardId: $boardId, color: $color)
     }
 `;

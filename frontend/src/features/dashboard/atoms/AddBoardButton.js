@@ -12,6 +12,10 @@ const BoardButton = styled(Button)`
     padding: 6px 10px;
     min-width: 270px;
     max-width: 270px;
+    
+    @media (max-width: 425px) {
+      margin: 0 auto;
+    }
 `;
 
 export const AddBoardButton = ({addColumn}) => (

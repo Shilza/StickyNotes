@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import styled from "styled-components";
 import {OptionsButton} from "../atoms";
-import {OptionsPopover} from "./OptionsPopover";
+import {ColumnPopover} from "./ColumnPopover";
 import {useOnClickOutside} from "../hooks";
 import {Input} from "../../auth/atoms";
 import {withApollo} from "react-apollo";
@@ -64,13 +64,13 @@ export const Title = withApollo(({icon, children, client, columnId}) => {
         <Container>
             {
                 isTitleRenamed
-                    ? <Input defaultValue={children} ref={titleRef}/>
+                    ? <Input height='28px' defaultValue={children} ref={titleRef}/>
                     : <Text>{children}</Text>
             }
             <OptionsButton onClick={popover}>{icon}</OptionsButton>
             {
                 isPopoverOpen &&
-                <OptionsPopover
+                <ColumnPopover
                     op={op}
                     closePopover={closePopover}
                     columnId={columnId}

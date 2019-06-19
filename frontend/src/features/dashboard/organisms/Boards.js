@@ -1,8 +1,7 @@
 import React from 'react';
 import {Board} from "./Board";
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
-import arrayMove from 'array-move';
-import {$dashboard, reorderColumns, setColumns} from "../models/dashboard";
+import {$dashboard, reorderColumns} from "../models/dashboard";
 import {useStore} from "effector-react";
 import styled from "styled-components";
 import {withApollo} from "react-apollo";

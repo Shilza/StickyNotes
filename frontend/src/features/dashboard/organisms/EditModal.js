@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
 import styled from "styled-components";
-import {Button, Modal} from "../../../ui/atoms";
+import {Button, LuminousButton, Modal} from "../../../ui/atoms";
 import {useOnClickOutside} from "../hooks";
 import {withApollo} from "react-apollo";
 import {REMOVE_RECORD, UPDATE_RECORD} from "../api";
@@ -36,34 +36,6 @@ const TextArea = styled.textarea`
     min-height: 80px;
     margin-bottom: 15px;
     resize: none;
-`;
-
-const LocalButton = styled(Button)`
-    width: 120px;
-    height: 24px;
-    margin: 20px 0 10px 0;
-    color: #ffffff;
-    font-size: 14px;
-    line-height: 1.55;
-    font-weight: 600;
-    border-width: 1px;
-    border-radius: 3px;
-  
-    background-position: center center;
-    border-color: transparent;
-    border-style: solid;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-    
-`;
-
-const SaveButton = styled(LocalButton)`
-  background-color: #5fba4c;
-  box-shadow: 0 2px 20px 0 #52a041;
-`;
-
-const RemoveButton = styled(LocalButton)`
-  background-color: #eb5a46;
-  box-shadow: 0 2px 20px 0 #eb4947;
 `;
 
 const AddMark = styled.span`
@@ -142,8 +114,8 @@ export const EditModal = withApollo(({closePortal, client, record}) => {
                     isMarksOpen && <Marks recordId={recordId}/>
                 }
                 <RowContainer width={'280px'}>
-                    <SaveButton>Save</SaveButton>
-                    <RemoveButton onClick={remove}>Remove</RemoveButton>
+                    <LuminousButton green>Save</LuminousButton>
+                    <LuminousButton red onClick={remove}>Remove</LuminousButton>
                 </RowContainer>
             </ModalBody>
         </Modal>
