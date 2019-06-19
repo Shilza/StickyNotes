@@ -1,22 +1,34 @@
-import React, {useRef, useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import {SortableContainer, SortableElement} from "react-sortable-hoc";
 import {Card} from "../molecules";
 import styled from "styled-components";
 import {reorderRecords} from "../models/dashboard";
+import {REORDER_RECORDS} from "../api";
+import {withApollo} from "react-apollo";
 
 const CardsList = styled.ul`
    overflow-y: auto;
 `;
 
-export const Cards = ({columnId, records}) => {
+export const Cards = withApollo(({client, columnId, records}) => {
     let containerRef = useRef(null);
 
     useEffect(() => {
         containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }, [records.length]);
 
-    const onSortEnd = ({oldIndex, newIndex}) => {
-        reorderRecords({columnId, oldIndex, newIndex});
+    const onSortEnd = async ({oldIndex, newIndex}) => {
+        if(newIndex !== oldIndex) {
+            reorderRecords({columnId, oldIndex, newIndex});
+            await client.mutate({
+                mutation: REORDER_RECORDS,
+                variables: {
+                    columnId,
+                    oldIndex: records[oldIndex].index,
+                    newIndex: records[newIndex].index
+                }
+            });
+        }
     };
 
     return (
@@ -26,11 +38,11 @@ export const Cards = ({columnId, records}) => {
             containerRef={containerRef}
             />
     );
-};
+});
 
 const SortableItem = SortableElement(({item}) => (
-    <Card recordId={item.id}>
-        {item.text}
+    <Card>
+        {item}
     </Card>
 ));
 

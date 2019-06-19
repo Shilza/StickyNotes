@@ -24,22 +24,24 @@ const Container = styled.div`
 export const Board = withApollo(({client, item}) => {
     let [newCard, setNewCard] = useState(false);
 
-    const addNewCard = async () => {
+    const addNewCard = () => {
         setNewCard(true);
     };
 
     const createCard = async text => {
-        const result = await client.mutate({
-            mutation: CREATE_RECORD,
-            variables: {
+        if(text.length > 0 && text.length < 400) {
+            const result = await client.mutate({
+                mutation: CREATE_RECORD,
+                variables: {
+                    columnId: item.id,
+                    text
+                }
+            });
+            addRecord({
                 columnId: item.id,
-                text
-            }
-        });
-        addRecord({
-            columnId: item.id,
-            record: result.data.createRecord
-        });
+                record: result.data.createRecord
+            });
+        }
     };
 
     const removeNewCard = () => {

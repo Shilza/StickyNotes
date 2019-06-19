@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {Button, Icon} from "../../../ui/atoms";
 import usePortal from "react-useportal";
 import {EditModal} from "../organisms";
+import {MiniMarks} from "./MiniMarks";
 
 const Container = styled.li`
     position: relative;
@@ -14,6 +15,7 @@ const Container = styled.li`
     cursor: grab;
     word-break: break-all;
     transition: 0.1s;
+    box-shadow: 0 1px 0 rgba(9,30,66,.25);
     
     &:hover {
       background: whitesmoke;
@@ -43,7 +45,7 @@ const EditButton = styled(Button)`
   }
 `;
 
-export const Card = ({children, recordId}) => {
+export const Card = ({children}) => {
     let [isEditHovered, setIsEditHovered] = useState(false);
     const {openPortal, closePortal, isOpen, Portal} = usePortal();
 
@@ -52,8 +54,12 @@ export const Card = ({children, recordId}) => {
     };
 
     return (
-        <Container onMouseOver={() => setIsEditHovered(true)} onMouseLeave={() => setIsEditHovered(false)}>
-            {children}
+        <Container
+            onMouseOver={() => setIsEditHovered(true)}
+            onMouseLeave={() => setIsEditHovered(false)}
+        >
+            <MiniMarks recordId={children.id}/>
+            {children.text}
             {
                 isEditHovered &&
                 <EditButton onClick={modalOpenClose}>
@@ -65,8 +71,7 @@ export const Card = ({children, recordId}) => {
                 <Portal>
                     <EditModal
                         closePortal={closePortal}
-                        text={children}
-                        recordId={recordId}
+                        record={children}
                     />
                 </Portal>
             }

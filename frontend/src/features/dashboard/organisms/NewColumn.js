@@ -37,14 +37,15 @@ export const NewColumn = ({removeColumn, createColumn}) => {
 
     useOnClickOutside(containerRef, removeColumn);
 
-    const onClickAdd = () => {
-        createColumn(inputRef.current.value);
+    const onClickAdd = async () => {
+        await createColumn(inputRef.current.value);
+        inputRef.current.value = '';
     };
 
     return (
         <Container ref={containerRef}>
             <TitleInput ref={inputRef}/>
-            <AddButton onClick={onClickAdd}>Add column</AddButton>
+            <AddButton onClick={onClickAdd}>Add list</AddButton>
         </Container>
     );
 };

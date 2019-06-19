@@ -6,7 +6,8 @@ import {Query, withApollo} from "react-apollo";
 import {CREATE_COLUMN, GET_COLUMNS} from "../api";
 import {Boards} from "../organisms/Boards";
 import {Loader} from "../../../ui/atoms";
-import {addColumn, setColumns} from "../models/dashboard";
+import {$dashboard, addColumn, setColumns} from "../models/dashboard";
+import {useStore} from "effector-react";
 
 const Container = styled.div`
     display: flex;
@@ -20,19 +21,22 @@ const Container = styled.div`
 
 export const Dashboard = withApollo(({client}) => {
     let [isNewColumn, setIsNewColumn] = useState(false);
+    let {columns} = useStore($dashboard);
 
     const addNewColumn = () => {
         setIsNewColumn(true);
     };
 
     const createColumn = async title => {
-        const result = await client.mutate({
-            mutation: CREATE_COLUMN,
-            variables: {
-                title
-            }
-        });
-        addColumn(result.data.createColumn);
+        if(title.length > 0 && title.length < 20) {
+            const result = await client.mutate({
+                mutation: CREATE_COLUMN,
+                variables: {
+                    title
+                }
+            });
+            addColumn(result.data.createColumn);
+        }
     };
 
     const removeColumn = () => {
@@ -48,7 +52,8 @@ export const Dashboard = withApollo(({client}) => {
                     if(error)
                         return <div>Error</div>;
 
-                    setColumns(data.columns);
+                    if(Object.is(columns, null))
+                        setColumns(data.columns);
                     return (
                         <>
                             <Boards/>

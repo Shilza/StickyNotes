@@ -4,6 +4,9 @@ import {OptionsButton} from "../atoms";
 import {OptionsPopover} from "./OptionsPopover";
 import {useOnClickOutside} from "../hooks";
 import {Input} from "../../auth/atoms";
+import {withApollo} from "react-apollo";
+import {RENAME_COLUMN} from "../api";
+import {renameColumn} from "../models/dashboard";
 
 const Container = styled.div`
     position: relative;
@@ -18,21 +21,36 @@ const Text = styled.span`
     font-weight: bold;
 `;
 
-export const Title = ({icon, children, columnId}) => {
+export const Title = withApollo(({icon, children, client, columnId}) => {
     let [isTitleRenamed, setIsTitleRenamed] = useState(false);
     let [isPopoverOpen, setIsPopoverOpen] = useState(false);
     let titleRef = useRef(null);
 
-    const renameTitle = () => {
+    const renameColumnn = async () => {
+        const title = titleRef.current.value;
+        if(title !== children && title.length > 0 && title.length < 20) {
+            await client.mutate({
+                mutation: RENAME_COLUMN,
+                variables: {
+                    columnId,
+                    title
+                }
+            });
+            renameColumn({
+                columnId,
+                title
+            });
+        }
         setIsTitleRenamed(false);
     };
 
-    useOnClickOutside(titleRef, renameTitle);
-
-    const op = () => {
-        console.log('open');
-        setIsTitleRenamed(true);
+    const op = async () => {
+        await setIsTitleRenamed(true);
+        titleRef.current.focus();
+        closePopover();
     };
+
+    useOnClickOutside(titleRef, renameColumnn);
 
     const popover = () => {
         setIsPopoverOpen(!isPopoverOpen);
@@ -46,17 +64,18 @@ export const Title = ({icon, children, columnId}) => {
         <Container>
             {
                 isTitleRenamed
-                    ? <Input>{children}</Input>
-                    : <Text onClick={op}>{children}</Text>
+                    ? <Input defaultValue={children} ref={titleRef}/>
+                    : <Text>{children}</Text>
             }
             <OptionsButton onClick={popover}>{icon}</OptionsButton>
             {
                 isPopoverOpen &&
                 <OptionsPopover
+                    op={op}
                     closePopover={closePopover}
                     columnId={columnId}
                 />
             }
         </Container>
     );
-};
+});

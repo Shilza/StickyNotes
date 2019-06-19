@@ -31,7 +31,7 @@ const Container = styled.div`
     }
 `;
 
-export const OptionsPopover = withApollo(({closePopover, columnId, client}) => {
+export const OptionsPopover = withApollo(({closePopover, columnId, client, op}) => {
     let popoverRef = useRef(null);
     let [isLoading, setIsLoading] = useState(false);
 
@@ -60,6 +60,7 @@ export const OptionsPopover = withApollo(({closePopover, columnId, client}) => {
                     isLoading && <Loader color='#fff'/>
                 }
             </PopoverButton>
+            <PopoverButton onClick={op}>Rename list</PopoverButton>
         </Container>
     );
 });
