@@ -11,7 +11,7 @@ export const PublicRoute = ({component: Component, ...rest}) => {
             !authenticated
                 ? <Component {...props}/>
                 : <Redirect to={{
-                    pathname: '/dashboard',
+                    pathname: '/boards',
                     state: {from: props.location}
                 }}/>
         )}/>
