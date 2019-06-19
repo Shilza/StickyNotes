@@ -9,12 +9,16 @@ const initialState = {
 };
 
 export const $auth = createStore(initialState)
-    .on(setUser, (state, user) => {
-        state.user = user;
-        state.authenticated = true;
-    })
-    .on(resetAuth, state => {
-        state.authenticated = false;
-        state.user = null;
-    });
+    .on(setUser, (state, user) => ({
+            ...state,
+            user,
+            authenticated: true
+        })
+    )
+    .on(resetAuth, state => ({
+            ...state,
+            authenticated: false,
+            user: null
+        })
+    );
 

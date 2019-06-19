@@ -7,6 +7,7 @@ import {withApollo} from "react-apollo";
 import {LOGOUT} from "../api";
 import {LogoutButton} from "../atoms";
 import {Link} from "react-router-dom";
+import {resetDashboard} from "../../dashboard/models/dashboard";
 
 const Container = styled.header`
     width: 100%;
@@ -35,6 +36,7 @@ export const Header = withRouter(withApollo(({client, history}) => {
             mutation: LOGOUT
         });
         resetAuth();
+        resetDashboard();
         history.push('/');
     };
 
