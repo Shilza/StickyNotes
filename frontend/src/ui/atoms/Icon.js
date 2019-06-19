@@ -105,7 +105,16 @@ const Edit = styled.div`
       border-top: solid 2px transparent;
       border-bottom: solid 2px transparent;
     }
+`;
 
+const Check = styled.div`
+  color: #000;
+  width: 14px;
+  height: 8px;
+  border-bottom: solid 1px currentColor;
+  border-left: solid 1px currentColor;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
 `;
 
 const getIconByName = name => {
@@ -118,6 +127,8 @@ const getIconByName = name => {
             return <Plus/>;
         case 'edit':
             return <Edit/>;
+        case 'check':
+            return <Check/>;
         default:
     }
 };

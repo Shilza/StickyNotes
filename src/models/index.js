@@ -4,6 +4,7 @@ import User from './user';
 import Board from './board';
 import Column from './column';
 import Record from './record';
+import Mark from './Mark';
 
 const connectDb = () => {
     if (process.env.TEST_DATABASE_URL) {
@@ -21,7 +22,7 @@ const connectDb = () => {
     }
 };
 
-const models = {User, Board, Column, Record};
+const models = {User, Board, Column, Record, Mark};
 
 export {connectDb};
 

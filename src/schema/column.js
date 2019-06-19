@@ -9,11 +9,13 @@ export default gql`
         createColumn(title: String!) : Column!
         removeColumn(columnId: ID!): Boolean
         renameColumn(columnId: ID!, title: String!): Boolean
+        reorderColumns(oldIndex: Int!, newIndex: Int!): Boolean
     }
 
     type Column {
         title: String!
         records: [Record!]
+        index: Int!
         id: ID!
     }
 `;

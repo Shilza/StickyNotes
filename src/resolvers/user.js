@@ -4,6 +4,26 @@ import {AuthenticationError, UserInputError} from 'apollo-server';
 
 import {isAdmin, isAuthenticated} from './authorization';
 
+
+
+// Remove collection
+// var mongoose = require('mongoose');
+// var db = mongoose.connection;
+// var Schema = mongoose.Schema;
+// db.on('error', console.error);
+// db.once('open', function () {
+//     console.log("db connect");
+//     db.dropCollection("records", function (err, result) {
+//         if (err) {
+//             console.log("error delete collection");
+//         } else {
+//             console.log("delete collection success");
+//         }
+//     });
+// });
+
+
+
 const createToken = async (user, secret, expiresIn) => {
     const {id, email, username, role} = user;
     return await jwt.sign({id, email, username, role}, secret, {
@@ -20,9 +40,8 @@ export default {
             return await models.User.findById(id);
         },
         me: async (parent, args, {models, me}) => {
-            if (!me) {
+            if (!me)
                 return null;
-            }
 
             return await models.User.findById(me.id);
         },

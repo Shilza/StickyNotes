@@ -4,6 +4,7 @@ import userResolvers from './user';
 import columnResolvers from './column';
 import boardResolvers from './board';
 import recordResolvers from './record';
+import markResolvers from './mark';
 
 const customScalarResolver = {
     Date: GraphQLDateTime,
@@ -14,5 +15,6 @@ export default [
     userResolvers,
     boardResolvers,
     columnResolvers,
-    recordResolvers
+    recordResolvers,
+    markResolvers
 ];

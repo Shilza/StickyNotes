@@ -22,15 +22,11 @@ userSchema.statics.findByLogin = async function (login) {
     });
 
     if (!user) {
-        user = await this.findOne({email: login});
+        user = await this.findOne({username: login});
     }
 
     return user;
 };
-
-userSchema.pre('remove', function (next) {
-    this.model('Message').deleteMany({userId: this._id}, next);
-});
 
 userSchema.pre('save', async function () {
     this.password = await this.generatePasswordHash();
