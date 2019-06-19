@@ -2,11 +2,11 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
     extend type Query {
-        columns: [Column!]
+        columns(title: String!): [Column!]
     }
 
     extend type Mutation {
-        createColumn(title: String!) : Column!
+        createColumn(title: String!, boardTitle: String!) : Column!
         removeColumn(columnId: ID!): Boolean
         renameColumn(columnId: ID!, title: String!): Boolean
         reorderColumns(oldIndex: Int!, newIndex: Int!): Boolean

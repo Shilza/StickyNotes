@@ -5,7 +5,6 @@ const columnSchema = new mongoose.Schema(
         title: {
             type: String,
             required: true,
-            unique: true,
             minlength: 1,
             maxlength: 20,
         },
@@ -18,15 +17,15 @@ const columnSchema = new mongoose.Schema(
     }
 );
 
-columnSchema.statics.findByOwnerId = async function (ownerId) {
+columnSchema.statics.findByOwnerId = async function (ownerId, boardId) {
     return await this.find({
-        ownerId
+        ownerId, boardId
     }).sort('index');
 };
 
-columnSchema.statics.findByIndex = async function (minIndex, maxIndex, ownerId) {
+columnSchema.statics.findByIndex = async function (minIndex, maxIndex, ownerId, boardId) {
     return await this.find({
-        index: {$gt: minIndex, $lt: maxIndex}, ownerId
+        index: {$gt: minIndex, $lt: maxIndex}, ownerId, boardId
     }).sort('index');
 };
 

@@ -1,7 +1,6 @@
-import React from 'react';
 import styled from "styled-components";
 
-const Container = styled.div`
+export const PopoverTitle = styled.div`
     box-sizing: border-box;
     color: #6b778c;
     display: block;
@@ -15,9 +14,3 @@ const Container = styled.div`
     white-space: nowrap;
     z-index: 1;
 `;
-
-export const OptionsPopoverTitle = ({children}) => (
-    <Container>
-        {children}
-    </Container>
-);

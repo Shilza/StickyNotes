@@ -3,8 +3,9 @@ import {ValidationError, ForbiddenError} from 'apollo-server';
 
 export default {
     Query: {
-        columns: async (parent, args, {models, me}) => {
-            let columns = await models.Column.findByOwnerId(me.id);
+        columns: async (parent, {title}, {models, me}) => {
+            const boardId = (await models.Board.findOne({title, ownerId: me.id})).id;
+            let columns = await models.Column.findByOwnerId(me.id, boardId);
             const recordsPromises = columns.map(column => models.Record.findByColumnId(column.id));
             const recordsResult = await Promise.all(recordsPromises);
 
@@ -27,22 +28,25 @@ export default {
     Mutation: {
         createColumn: async (
             parent,
-            {title},
+            {title, boardTitle},
             {models, me},
         ) => {
-            if(title.length === 0 || title.length > 400)
+            if(title.length === 0 || title.length > 20)
                 throw new ValidationError('Title is invalid');
 
+            const boardId = (await models.Board.findOne({title: boardTitle, ownerId: me.id})).id;
             const lastColumn = await models.Column.findOne({
-                ownerId: me.id
+                ownerId: me.id,
+                boardId
             }).sort('-index');
+
             const index = Object.is(lastColumn, null) ? 0 : lastColumn.index + 1;
 
             return await models.Column.create({
                 title: validator.escape(validator.trim(title)),
                 ownerId: me.id,
                 index,
-                projectId: 1
+                boardId
             });
         },
 
@@ -87,11 +91,12 @@ export default {
 
         reorderColumns: async (
             parent,
-            {oldIndex, newIndex},
+            {boardTitle, oldIndex, newIndex},
             {models, me}
         ) => {
+            const boardId = (await models.Board.findOne({title: boardTitle, ownerId: me.id})).id;
             const columns = await models.Column.findByIndex(
-                Math.min(oldIndex, newIndex) - 1, Math.max(oldIndex, newIndex) + 1, me.id
+                Math.min(oldIndex, newIndex) - 1, Math.max(oldIndex, newIndex) + 1, me.id, boardId
             );
 
             let promises = [];

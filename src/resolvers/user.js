@@ -1,10 +1,7 @@
 import jwt from 'jsonwebtoken';
 import {combineResolvers} from 'graphql-resolvers';
 import {AuthenticationError, UserInputError} from 'apollo-server';
-
 import {isAdmin, isAuthenticated} from './authorization';
-
-
 
 // Remove collection
 // var mongoose = require('mongoose');
@@ -13,7 +10,7 @@ import {isAdmin, isAuthenticated} from './authorization';
 // db.on('error', console.error);
 // db.once('open', function () {
 //     console.log("db connect");
-//     db.dropCollection("records", function (err, result) {
+//     db.dropCollection("boards", function (err, result) {
 //         if (err) {
 //             console.log("error delete collection");
 //         } else {
@@ -21,8 +18,6 @@ import {isAdmin, isAuthenticated} from './authorization';
 //         }
 //     });
 // });
-
-
 
 const createToken = async (user, secret, expiresIn) => {
     const {id, email, username, role} = user;
@@ -58,8 +53,8 @@ export default {
                 password,
             });
 
-            const options = {expires: new Date(Date.now() + 900000), httpOnly: true};
-            const token = await createToken(user, secret, '30m');
+            const options = {expires: new Date(Date.now() + 86400000), httpOnly: true};
+            const token = await createToken(user, secret, '24h');
             res.cookie('token', token, options);
 
             return user;
@@ -72,20 +67,18 @@ export default {
         ) => {
             const user = await models.User.findByLogin(login);
 
-            if (!user) {
+            if (!user)
                 throw new UserInputError(
                     'No user found with this login credentials.',
                 );
-            }
 
             const isValid = await user.validatePassword(password);
 
-            if (!isValid) {
+            if (!isValid)
                 throw new AuthenticationError('Invalid password.');
-            }
 
-            const options = {expires: new Date(Date.now() + 900000), httpOnly: true};
-            const token = await createToken(user, secret, '30m');
+            const options = {expires: new Date(Date.now() + 86400000), httpOnly: true};
+            const token = await createToken(user, secret, '24h');
             res.cookie('token', token, options);
 
             return user;
@@ -119,9 +112,8 @@ export default {
                 if (user) {
                     await user.remove();
                     return true;
-                } else {
+                } else
                     return false;
-                }
             },
         ),
     },

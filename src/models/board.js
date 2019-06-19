@@ -2,7 +2,19 @@ import mongoose from 'mongoose';
 
 const boardSchema = new mongoose.Schema(
     {
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+        title: {
+            type: String,
+            required: true,
+            minlength: 1,
+            maxlength: 20,
+        },
+        color: {
+            type: String,
+            required: true,
+            minlength: 7,
+            maxlength: 7
+        },
+        ownerId: {type: String, ref: 'User'}
     }
 );
 

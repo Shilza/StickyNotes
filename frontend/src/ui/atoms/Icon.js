@@ -2,86 +2,87 @@ import React from 'react';
 import styled from "styled-components";
 
 const Ellipsis = styled.div`
-    position: relative;
-  color: #000;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  border: solid 1px currentColor;
+     position: relative;
+     color: ${props => props.color || '#000'};
+     width: 2px;
+     height: 2px;
+     border-radius: 50%;
+     border: solid 1px currentColor;
 
-&:before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: -6px;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  border: solid 1px currentColor;
-}
+    &:before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -6px;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      border: solid 1px currentColor;
+    }
 
-&:after {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: 4px;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  border: solid 1px currentColor;
-}
+    &:after {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: 4px;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      border: solid 1px currentColor;
+    }
 `;
 
 const Close = styled.div`
-  color: #000;
-  position: relative;
-  width: 12px;
-  height: 12px;
-
-&:before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  width: 12px;
-  height: 1px;
-  background-color: currentColor;
-  -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
-}
-
-&:after {
-  content: '';
-  position: absolute;
-  top: 10px;
-  width: 12px;
-  height: 1px;
-  background-color: currentColor;
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
-}
+    color: #000;
+    position: relative;
+    width: 12px;
+    height: 12px;
+    
+    &:before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      width: 12px;
+      height: 1px;
+      background-color: currentColor;
+      -webkit-transform: rotate(-45deg);
+              transform: rotate(-45deg);
+    }
+    
+    &:after {
+      content: '';
+      position: absolute;
+      top: 10px;
+      width: 12px;
+      height: 1px;
+      background-color: currentColor;
+      -webkit-transform: rotate(45deg);
+              transform: rotate(45deg);
+    }
 `;
 
 const Plus = styled.div`
-  color: #000;
-  position: relative;
+    color: #000;
+    width: 20px;
+    position: relative;
 
-&:before {
-  content: '';
-  position: absolute;
-  width: 12px;
-  height: 1px;
-  background-color: currentColor;
-}
-
-&:after {
-  content: '';
-  position: absolute;
-  width: 12px;
-  height: 1px;
-  background-color: currentColor;
-  -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
-}
+    &:before {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 1px;
+      background-color: currentColor;
+    }
+    
+    &:after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 1px;
+      background-color: currentColor;
+      -webkit-transform: rotate(90deg);
+              transform: rotate(90deg);
+    }
 `;
 
 const Edit = styled.div`
@@ -91,7 +92,7 @@ const Edit = styled.div`
       border-radius: 1px;
       border: solid 1px currentColor;
       -webkit-transform: rotate(-45deg);
-              transform: rotate(-45deg);
+      transform: rotate(-45deg);
 
     &:before {
       content: '';
@@ -117,22 +118,22 @@ const Check = styled.div`
   transform: rotate(-45deg);
 `;
 
-const getIconByName = name => {
+const getIconByName = (name, props) => {
     switch (name) {
         case 'ellipsis':
-            return <Ellipsis/>;
+            return <Ellipsis {...props}/>;
         case 'close':
-            return <Close/>;
+            return <Close {...props}/>;
         case 'plus':
-            return <Plus/>;
+            return <Plus {...props}/>;
         case 'edit':
-            return <Edit/>;
+            return <Edit {...props}/>;
         case 'check':
-            return <Check/>;
+            return <Check {...props}/>;
         default:
     }
 };
 
-export const Icon = ({name}) => (
-    getIconByName(name)
+export const Icon = ({name, ...props}) => (
+    getIconByName(name, props)
 );
