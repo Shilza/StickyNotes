@@ -25,7 +25,7 @@ export const SignInForm = withRouter(withApollo(({client, history}) => {
             });
 
             setUser(result.data.signIn);
-            history.push('/dashboard');
+            history.push('/boards');
         } catch(error) {
             setError('Login or password is invalid');
         } finally {

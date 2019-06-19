@@ -24,7 +24,7 @@ export const SignUpForm = withRouter(withApollo(({client, history}) => {
                 });
 
                 setUser(result.data.signUp);
-                history.push('/dashboard');
+                history.push('/boards');
             } else {
                 setError('Passwords must match');
             }
