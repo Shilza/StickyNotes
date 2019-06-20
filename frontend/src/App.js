@@ -3,8 +3,12 @@ import {Query} from "react-apollo";
 import gql from "graphql-tag";
 import {setUser} from "./features/common/models/auth";
 import Routes from "./routes";
+import {ThemeProvider} from "styled-components";
+import {useStore} from "effector-react";
+import {$board} from "./features/dashboard/models/board";
+import {Loader} from "./ui/atoms";
 
-const GET_LAUNCHES = gql`
+const GET_ME = gql`
     query me {
         me {
             username
@@ -12,18 +16,25 @@ const GET_LAUNCHES = gql`
     }
 `;
 
-const App = () => (
-    <Query query={GET_LAUNCHES}>
-        {({data, loading, error}) => {
-            if (loading) return <div>Loading</div>;
-            if (error) return <p>ERROR</p>;
+const App = () => {
+    let {color} = useStore($board);
 
-            if (data.me)
-                setUser(data.me);
-            return <Routes/>;
-        }}
-    </Query>
-);
+    return (
+        <Query query={GET_ME}>
+            {({data, loading, error}) => {
+                if (loading) return <Loader width='40px' height='40px' color='#fff' animationDuration='0.8'/>;
+                if (error) return <div>Error</div>;
 
+                if (data.me)
+                    setUser(data.me);
+                return (
+                    <ThemeProvider theme={{backgroundColor: color}}>
+                        <Routes/>
+                    </ThemeProvider>
+                )
+            }}
+        </Query>
+    );
+};
 
 export default App;
