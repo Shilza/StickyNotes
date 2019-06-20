@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import back from "./back.png";
+import stickyNotes from "./stickyNotes.png";
 import {Button} from "../../../ui/atoms";
 
 const Container = styled.div`
@@ -30,7 +30,7 @@ const Container = styled.div`
     top: 82%;
     left: 50%;
     transform: translate(-50%, -82%);
-    background-image: url(${back});
+    background-image: url(${stickyNotes});
     background-size: 100% 100%;
     background-repeat: no-repeat;
     transition: 0.5s;

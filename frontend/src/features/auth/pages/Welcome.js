@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {AuthForm, Description} from "../organisms";
 import {MainBackground} from "../molecules";
 
-const Cc = styled.div`
+const MainContainer = styled.div`
   width: 100%;
   height: 100%;
 `;
@@ -51,7 +51,7 @@ const AuthFormContainer = styled.div`
 
 export const Welcome = () => {
     return (
-        <Cc>
+        <MainContainer>
             <Container>
                 <MainBackground/>
                 <AuthSide>
@@ -62,6 +62,6 @@ export const Welcome = () => {
                 </AuthSide>
             </Container>
             <Description/>
-        </Cc>
+        </MainContainer>
     )
 };

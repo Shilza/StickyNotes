@@ -5,6 +5,8 @@ import {withRouter} from "react-router";
 import {setUser} from "../../common/models/auth";
 import {SIGN_IN} from "../api";
 import {Loader} from "../../../ui/atoms";
+import {toast} from "react-toastify";
+import {getErrorMessage} from "../../common/utils";
 
 export const SignInForm = withRouter(withApollo(({client, history}) => {
     let [error, setError] = useState(null);
@@ -27,7 +29,7 @@ export const SignInForm = withRouter(withApollo(({client, history}) => {
             setUser(result.data.signIn);
             history.push('/boards');
         } catch(error) {
-            setError('Login or password is invalid');
+            toast.error(getErrorMessage(error));
         } finally {
             setIsLoading(false);
         }

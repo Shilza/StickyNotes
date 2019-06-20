@@ -4,6 +4,8 @@ import {withApollo} from "react-apollo";
 import {withRouter} from "react-router";
 import {setUser} from "../../common/models/auth";
 import {SIGN_UP} from "../api";
+import {toast} from "react-toastify";
+import {getErrorMessage} from "../../common/utils";
 
 export const SignUpForm = withRouter(withApollo(({client, history}) => {
     let [error, setError] = useState(null);
@@ -14,7 +16,7 @@ export const SignUpForm = withRouter(withApollo(({client, history}) => {
     const signUp = async event => {
         event.preventDefault();
         try {
-            if(password === passwordConfirm) {
+            if (password === passwordConfirm) {
                 const result = await client.mutate({
                     mutation: SIGN_UP,
                     variables: {
@@ -28,8 +30,8 @@ export const SignUpForm = withRouter(withApollo(({client, history}) => {
             } else {
                 setError('Passwords must match');
             }
-        } catch(error) {
-            setError('Something went wrong');
+        } catch (error) {
+            toast.error(getErrorMessage(error));
         }
     };
 
@@ -43,7 +45,7 @@ export const SignUpForm = withRouter(withApollo(({client, history}) => {
         setError(null);
     };
 
-    const passwordConfirmChange= event => {
+    const passwordConfirmChange = event => {
         setPasswordConfirm(event.target.value);
         setError(null);
     };
@@ -71,7 +73,7 @@ export const SignUpForm = withRouter(withApollo(({client, history}) => {
                 maxLength={12}
             />
             {
-                error &&  <Error>{error}</Error>
+                error && <Error>{error}</Error>
             }
             <SubmitButton type={'submit'}>Submit</SubmitButton>
         </Form>
