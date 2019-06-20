@@ -1,11 +1,12 @@
-import React from 'react'
+import React, {memo} from 'react'
 import {BrowserRouter as Router, Switch} from 'react-router-dom'
 import {routes} from './routes'
 import {PublicRoute} from "./Public";
 import {PrivateRoute} from "./Private";
 import {Header} from "../features/common/organisms";
+import {toast, ToastContainer} from "react-toastify";
 
-const Routes = () => (
+const Routes = memo(() => (
     <Router>
         <Header/>
         <Switch>
@@ -17,7 +18,8 @@ const Routes = () => (
                 )
             }
         </Switch>
+        <ToastContainer position={toast.POSITION.BOTTOM_RIGHT}/>
     </Router>
-);
+));
 
 export default Routes;
