@@ -4,7 +4,7 @@ import {Button} from "./Button";
 export const LuminousButton = styled(Button)`
     width: ${props => props.width || '100px'};
     height: ${props => props.height || '24px'};
-    margin: 20px 0;
+    margin: ${props => props.margin || '20px 0'};
     color: ${props => props.color || '#ffffff'};
     font-size: 14px;
     line-height: 1.55;
@@ -27,5 +27,5 @@ export const LuminousButton = styled(Button)`
     else if(props.red)
         return '#eb4947';
     }};
-    
+    z-index: ${props => props.zIndex || 'auto'};
 `;

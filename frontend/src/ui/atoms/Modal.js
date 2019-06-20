@@ -11,13 +11,11 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999;
 `;
 
-export const Modal = ({children}) => {
-
-    return (
-        <Container>
-            {children}
-        </Container>
-    )
-};
+export const Modal = ({children}) => (
+    <Container>
+        {children}
+    </Container>
+);
