@@ -13,7 +13,7 @@ app.use(cors());
 
 app.use(cookieParser());
 
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 
 server.applyMiddleware({app, path: '/graphql'});
 

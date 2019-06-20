@@ -1,4 +1,4 @@
-import {ValidationError, ForbiddenError} from 'apollo-server';
+import {ValidationError} from 'apollo-server';
 import validator from "validator";
 
 export default {
@@ -45,7 +45,7 @@ export default {
             });
 
             if(Object.is(board, null))
-                throw new ForbiddenError('Only owner can remove boards');
+                throw new ValidationError('Board not found');
 
             await models.Board.remove({"_id": boardId});
             return true;
@@ -62,7 +62,7 @@ export default {
             });
 
             if(Object.is(board, null))
-                throw new ForbiddenError('Only owner can change board title');
+                throw new ValidationError('Board not found');
 
             if(title.length === 0 || title.length > 20)
                 throw new ValidationError('Title is invalid');
@@ -84,7 +84,7 @@ export default {
             });
 
             if(Object.is(board, null))
-                throw new ForbiddenError('Only owner can change board color');
+                throw new ValidationError('Board not found');
 
             if(color.length !== 7)
                 throw new ValidationError('Color is invalid');

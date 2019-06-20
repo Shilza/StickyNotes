@@ -3,22 +3,6 @@ import {combineResolvers} from 'graphql-resolvers';
 import {AuthenticationError, UserInputError} from 'apollo-server';
 import {isAdmin, isAuthenticated} from './authorization';
 
-// Remove collection
-// var mongoose = require('mongoose');
-// var db = mongoose.connection;
-// var Schema = mongoose.Schema;
-// db.on('error', console.error);
-// db.once('open', function () {
-//     console.log("db connect");
-//     db.dropCollection("boards", function (err, result) {
-//         if (err) {
-//             console.log("error delete collection");
-//         } else {
-//             console.log("delete collection success");
-//         }
-//     });
-// });
-
 const createToken = async (user, secret, expiresIn) => {
     const {id, email, username, role} = user;
     return await jwt.sign({id, email, username, role}, secret, {
@@ -118,3 +102,20 @@ export default {
         ),
     },
 };
+
+
+// Remove collection
+// var mongoose = require('mongoose');
+// var db = mongoose.connection;
+// var Schema = mongoose.Schema;
+// db.on('error', console.error);
+// db.once('open', function () {
+//     console.log("db connect");
+//     db.dropCollection("boards", function (err, result) {
+//         if (err) {
+//             console.log("error delete collection");
+//         } else {
+//             console.log("delete collection success");
+//         }
+//     });
+// });

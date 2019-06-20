@@ -12,7 +12,7 @@ const columnSchema = new mongoose.Schema(
             type: Number,
             required: true
         },
-        boardId: { type: String, ref: 'Board' },
+        boardId: { type: String, ref: 'Column' },
         ownerId: {type: String, ref: 'User'}
     }
 );
