@@ -6,6 +6,9 @@ import {withApollo} from "react-apollo";
 import {Icon} from "../../../ui/atoms";
 import {useStore} from "effector-react";
 import {getMarksByRecordId} from "../selectors";
+import {toast} from "react-toastify";
+import {getErrorMessage} from "../../common/utils";
+import {Mark} from "../atoms";
 
 const Container = styled.div`
   display: flex;
@@ -13,29 +16,6 @@ const Container = styled.div`
   border-radius: 5px;
   padding: 15px;
   width: 60%;
-`;
-
-const MarkItem = styled.div`
-  width: 100%;
-  height: 30px;
-  background-color: ${props => props.backgroundColor};
-  opacity: 0.9;
-  border-radius: 5px;
-  transition: 0.1s;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0 10px;
-  cursor: pointer;
-  
-  &+& {
-    margin-top: 10px;
-  }
-  
-  &:hover {
-    opacity: 1;
-    transform: scale(1.01);
-  }
 `;
 
 const colors = [
@@ -49,45 +29,49 @@ export const Marks = withApollo(({recordId, client}) => {
     let {columns} = useStore($dashboard);
     let marks = getMarksByRecordId(columns, recordId);
 
-    const create = async color => {
-        const result = await client.mutate({
+    const createMark = color => {
+        client.mutate({
             mutation: CREATE_MARK,
             variables: {
                 color,
                 recordId
             }
-        });
-
-        addMark({
-            recordId,
-            mark: result.data.createMark
-        });
+        })
+            .then(({data}) => {
+                addMark({
+                    recordId,
+                    mark: data.createMark
+                });
+            })
+            .catch(error => toast.error(getErrorMessage(error)));
     };
 
-    const remove = async color => {
+    const remove = color => {
         const markId = marks.find(mark => mark.color === color).id;
-        await client.mutate({
+        client.mutate({
             mutation: REMOVE_MARK,
             variables: {
                 markId
             }
-        });
-
-        removeMark(markId);
+        })
+            .then(() => {
+                removeMark(markId);
+            })
+            .catch(error => toast.error(getErrorMessage(error)));
     };
 
     const markOnClick = color => {
         const isExist = marks.some(mark => mark.color === color);
-        isExist ? remove(color) : create(color);
+        isExist ? remove(color) : createMark(color);
     };
 
     return (
         <Container>
             {
                 colors.map((color, index) =>
-                    <MarkItem key={index} onClick={() => markOnClick(color)} backgroundColor={color}>
+                    <Mark key={index} onClick={() => markOnClick(color)} backgroundColor={color}>
                         {marks.some(mark => mark.color === color) && <Icon name='check'/>}
-                    </MarkItem>
+                    </Mark>
                 )
             }
         </Container>

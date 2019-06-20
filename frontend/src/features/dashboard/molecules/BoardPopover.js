@@ -9,11 +9,20 @@ import {$board, setCurrentBoardColor} from "../models/board";
 import {useStore} from "effector-react";
 import {CHANGE_BOARD_COLOR, REMOVE_BOARD} from "../api";
 import {withRouter} from "react-router";
+import {toast} from "react-toastify";
+import {getErrorMessage} from "../../common/utils";
 
-const ChangeColor = styled.label`
-  margin: 10px auto;
+const ChangeColorContainer = styled.label`
+  margin: 10px 5px;
   display: flex;
+  justify-content: center;
+  width: 100%;
   color: #000;
+  cursor: pointer;
+`;
+
+const ChangeColor = styled.span`
+  margin-right: 10px;
 `;
 
 export const BoardPopover = withRouter(withApollo(({closePopover, history, client}) => {
@@ -22,47 +31,44 @@ export const BoardPopover = withRouter(withApollo(({closePopover, history, clien
     let colorRef = useRef(null);
     let [isLoading, setIsLoading] = useState(false);
 
-    const colorChange = async () => {
-        const newColor = colorRef.current && colorRef.current.value;
-        if (newColor && newColor.length === 7)
-            await client.mutate({
-                mutation: CHANGE_BOARD_COLOR,
-                variables: {
-                    boardId: id,
-                    color: newColor
-                }
-            });
-        closePopover();
-    };
-
     const onChangeColor = event => {
-        setCurrentBoardColor(event.target.value);
+        const newColor = event.target.value;
+        setCurrentBoardColor(newColor);
+        client.mutate({
+            mutation: CHANGE_BOARD_COLOR,
+            variables: {
+                boardId: id,
+                color: newColor
+            }
+        }).catch(error => toast.error(getErrorMessage(error)));
     };
 
-    useOnClickOutside(popoverRef, colorChange);
+    useOnClickOutside(popoverRef, closePopover);
 
-    const remove = async () => {
+    const removeBoard = () => {
         setIsLoading(true);
-        await client.mutate({
+        client.mutate({
             mutation: REMOVE_BOARD,
             variables: {
                 boardId: id
             }
-        });
+        })
+            .then(() => history.push('/boards'))
+            .catch(error => toast.error(getErrorMessage(error)))
+    };
 
-        setIsLoading(false);
-        closePopover();
-        history.push('/boards');
+    const onClickChangeColor = () => {
+        colorRef.current.click();
     };
 
     return (
         <Popover ref={popoverRef} left='calc(100% - 310px)' top='38px'>
             <PopoverTitle>Actions with board</PopoverTitle>
-            <ChangeColor htmlFor='colorPicked'>
-                Change color
+            <ChangeColorContainer htmlFor='colorPicked' onClick={onClickChangeColor}>
+                <ChangeColor>Change color</ChangeColor>
                 <ColorPicker onChange={onChangeColor} ref={colorRef} defaultValue={color}/>
-            </ChangeColor>
-            <PopoverButton onClick={remove} disabled={isLoading}>
+            </ChangeColorContainer>
+            <PopoverButton onClick={removeBoard} disabled={isLoading}>
                 Remove board
                 {
                     isLoading && <Loader color='#fff'/>

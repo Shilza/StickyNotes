@@ -7,6 +7,8 @@ import {Input} from "../../auth/atoms";
 import {withApollo} from "react-apollo";
 import {RENAME_COLUMN} from "../api";
 import {renameColumn} from "../models/dashboard";
+import {toast} from "react-toastify";
+import {getErrorMessage} from "../../common/utils";
 
 const Container = styled.div`
     position: relative;
@@ -26,20 +28,23 @@ export const Title = withApollo(({icon, children, client, columnId}) => {
     let [isPopoverOpen, setIsPopoverOpen] = useState(false);
     let titleRef = useRef(null);
 
-    const renameColumnn = async () => {
+    const renameColumnn = () => {
         const title = titleRef.current.value;
-        if(title !== children && title.length > 0 && title.length < 20) {
-            await client.mutate({
+        if (title !== children && title.length > 0 && title.length < 20) {
+            client.mutate({
                 mutation: RENAME_COLUMN,
                 variables: {
                     columnId,
                     title
                 }
-            });
-            renameColumn({
-                columnId,
-                title
-            });
+            })
+                .then(() => {
+                    renameColumn({
+                        columnId,
+                        title
+                    });
+                })
+                .catch(error => toast.error(getErrorMessage(error)));
         }
         setIsTitleRenamed(false);
     };

@@ -1,13 +1,15 @@
 import React, {useRef, useState} from "react";
 import styled from "styled-components";
-import {Button, LuminousButton, Modal} from "../../../ui/atoms";
+import {LuminousButton, Modal} from "../../../ui/atoms";
 import {useOnClickOutside} from "../hooks";
 import {withApollo} from "react-apollo";
 import {REMOVE_RECORD, UPDATE_RECORD} from "../api";
 import {removeRecord, updateRecord} from "../models/dashboard";
 import {Marks, MiniMarks} from "../molecules";
 import {getTimeByMs} from "../utils";
-
+import {toast} from "react-toastify";
+import {getErrorMessage} from "../../common/utils";
+import {TextArea} from "../atoms";
 
 const ModalBody = styled.form`
   background: #f4f5f7;
@@ -16,10 +18,10 @@ const ModalBody = styled.form`
   max-height: 800px;
   border-radius: 6px;
   padding: 15px;
- box-shadow: 5px 12px 50px 3px rgba(0,0,0,0.5);
- display: flex;
- flex-direction: column;
- align-items: center;
+  box-shadow: 5px 12px 50px 3px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Title = styled.div`
@@ -29,15 +31,6 @@ const Title = styled.div`
   margin: 0 0 8px 0;
 `;
 
-const TextArea = styled.textarea`
-    margin-top: 5px;
-    box-shadow: 0 4px 8px -2px rgba(9,30,66,.25), 0 0 0 1px rgba(9,30,66,.08);
-    width: 100%;
-    min-height: 80px;
-    margin-bottom: 15px;
-    resize: none;
-`;
-
 const AddMark = styled.span`
   text-decoration: underline;
   align-self: flex-start;
@@ -45,10 +38,10 @@ const AddMark = styled.span`
 `;
 
 const RowContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: ${props => props.width || '100%'};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: ${props => props.width || '100%'};
 `;
 
 const Time = styled.time`
@@ -73,31 +66,37 @@ export const EditModal = withApollo(({closePortal, client, record}) => {
 
         const text = textAreaRef.current.value;
         if (text !== defaultText && text.length > 1 && text.length < 400) {
-            await client.mutate({
+            client.mutate({
                 mutation: UPDATE_RECORD,
                 variables: {
                     text,
                     recordId
                 }
-            });
-            updateRecord({text, recordId});
-            closePortal();
+            })
+                .then(() => {
+                    updateRecord({text, recordId});
+                })
+                .catch(error => toast.error(getErrorMessage(error)));
         }
+        closePortal();
     };
 
     const openCloseMarks = () => {
         isMarksOpen ? setIsMarksOpen(false) : setIsMarksOpen(true);
     };
 
-    const remove = async () => {
-        await client.mutate({
+    const remove = () => {
+        client.mutate({
             mutation: REMOVE_RECORD,
             variables: {
                 recordId
             }
-        });
-        removeRecord(recordId);
-        closePortal();
+        })
+            .then(() => {
+                removeRecord(recordId);
+                closePortal();
+            })
+            .catch(error => toast.error(getErrorMessage(error)));
     };
 
     return (

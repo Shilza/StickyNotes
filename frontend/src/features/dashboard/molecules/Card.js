@@ -23,29 +23,29 @@ const Container = styled.li`
 `;
 
 const EditButton = styled(Button)`
-  position: absolute;
-  left: calc(100% - 30px);
-  top: 1px;
-  transform: translateZ(0);
-  height: 28px;
-  width: 28px;
-  border-radius: 3px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.3s;
-  background: lightgray;
-  
-  &:hover {
-   background: darkgray;
-  }
-  
-  &:active {
-    background: gray;
-  }
+    position: absolute;
+    left: calc(100% - 30px);
+    top: 1px;
+    transform: translateZ(0);
+    height: 28px;
+    width: 28px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+    background: lightgray;
+      
+    &:hover {
+      background: darkgray;
+    }
+      
+    &:active {
+      background: gray;
+    }
 `;
 
-export const Card = ({children}) => {
+export const Card = ({record}) => {
     let [isEditHovered, setIsEditHovered] = useState(false);
     const {openPortal, closePortal, isOpen, Portal} = usePortal();
 
@@ -58,8 +58,8 @@ export const Card = ({children}) => {
             onMouseOver={() => setIsEditHovered(true)}
             onMouseLeave={() => setIsEditHovered(false)}
         >
-            <MiniMarks recordId={children.id}/>
-            {children.text}
+            <MiniMarks recordId={record.id}/>
+            {record.text}
             {
                 isEditHovered &&
                 <EditButton onClick={modalOpenClose}>
@@ -71,7 +71,7 @@ export const Card = ({children}) => {
                 <Portal>
                     <EditModal
                         closePortal={closePortal}
-                        record={children}
+                        record={record}
                     />
                 </Portal>
             }

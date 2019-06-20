@@ -6,6 +6,8 @@ import {withApollo} from "react-apollo";
 import {REMOVE_COLUMN} from "../api";
 import {removeColumn} from "../models/dashboard";
 import {Popover} from "../../../ui/organisms";
+import {toast} from "react-toastify";
+import {getErrorMessage} from "../../common/utils";
 
 export const ColumnPopover = withApollo(({closePopover, columnId, client, op}) => {
     let popoverRef = useRef(null);
@@ -13,18 +15,20 @@ export const ColumnPopover = withApollo(({closePopover, columnId, client, op}) =
 
     useOnClickOutside(popoverRef, closePopover);
 
-    const remove = async () => {
+    const remove = () => {
         setIsLoading(true);
-        await client.mutate({
+        client.mutate({
             mutation: REMOVE_COLUMN,
             variables: {
                 columnId
             }
-        });
-
-        setIsLoading(false);
-        closePopover();
-        removeColumn(columnId);
+        })
+            .then(() => {
+                setIsLoading(false);
+                closePopover();
+                removeColumn(columnId);
+            })
+            .catch(error => toast.error(getErrorMessage(error)));
     };
 
     return (

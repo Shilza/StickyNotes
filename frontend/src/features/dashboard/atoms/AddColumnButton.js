@@ -1,8 +1,7 @@
-import React from 'react';
 import styled from "styled-components";
 import {Button} from "../../../ui/atoms";
 
-const BoardButton = styled(Button)`
+export const AddColumnButton = styled(Button)`
     background-color: rgba(0,0,0,.12);
     cursor: pointer;
     color: #fff;
@@ -17,9 +16,3 @@ const BoardButton = styled(Button)`
       margin: 0 auto;
     }
 `;
-
-export const AddBoardButton = ({addColumn}) => (
-    <BoardButton onClick={addColumn}>
-        + Add new list
-    </BoardButton>
-);

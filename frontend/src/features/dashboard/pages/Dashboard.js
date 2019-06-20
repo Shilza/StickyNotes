@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {BoardHeader, NewColumn} from "../organisms";
+import React, {useEffect} from 'react';
+import {BoardHeader, NewColumnContainer} from "../organisms";
 import styled from "styled-components";
-import {AddBoardButton} from "../atoms";
 import {Query, withApollo} from "react-apollo";
-import {CREATE_COLUMN, GET_BOARD, GET_COLUMNS} from "../api";
-import {Boards} from "../organisms/Boards";
+import {GET_BOARD, GET_COLUMNS} from "../api";
+import {Columns} from "../organisms/Columns";
 import {Loader} from "../../../ui/atoms";
-import {$dashboard, addColumn, setColumns} from "../models/dashboard";
-import {useStore} from "effector-react";
-import {$board, setCurrentBoard} from "../models/board";
+import {setColumns} from "../models/dashboard";
+import {setCurrentBoard} from "../models/board";
+import {toast} from "react-toastify";
+import {getErrorMessage} from "../../common/utils";
 
 const MainContent = styled.div`
    display: flex;
@@ -25,34 +25,10 @@ const Container = styled.div`
   width: 100%;
   height: calc(100% - 40px);
   padding: 10px 1% 0 1%;
+  background-color: ${props => props.theme.backgroundColor || '#0067a3'}
 `;
 
 export const Dashboard = withApollo(({match: {params: {title: boardTitle}}, client}) => {
-    let [isNewColumn, setIsNewColumn] = useState(false);
-    let {columns} = useStore($dashboard);
-    let {color} = useStore($board);
-
-    const addNewColumn = () => {
-        setIsNewColumn(true);
-    };
-
-    const createColumn = async title => {
-        if (title.length > 0 && title.length < 20) {
-            const result = await client.mutate({
-                mutation: CREATE_COLUMN,
-                variables: {
-                    title,
-                    boardTitle
-                }
-            });
-            addColumn(result.data.createColumn);
-        }
-    };
-
-    const removeColumn = () => {
-        setIsNewColumn(false);
-    };
-
     useEffect(() => {
         client.query({
             query: GET_BOARD,
@@ -61,37 +37,30 @@ export const Dashboard = withApollo(({match: {params: {title: boardTitle}}, clie
             }
         }).then(({data}) => {
             setCurrentBoard(data.board);
-        });
+        }).catch(error => toast.error(getErrorMessage(error)));
     }, [client, boardTitle]);
 
-    useEffect(() => {
-        document.getElementById('root').style.backgroundColor = color;
-    }, [color]);
-
     return (
-        <Query query={GET_COLUMNS} variables={{title: boardTitle}}>
-            {({data, loading, error}) => {
-                if (loading)
-                    return <Loader width='40px' height='40px' color='#fff' animationDuration='0.8'/>;
-                if (error)
-                    return <div>Error</div>;
+        <Container>
+            <Query query={GET_COLUMNS} variables={{title: boardTitle}} fetchPolicy='no-cache'>
+                {({data, loading, error}) => {
+                    if (loading)
+                        return <Loader width='40px' height='40px' color='#fff' animationDuration='0.8'/>;
+                    if (error)
+                        return <div>Error</div>;
 
-                if (Object.is(columns, null))
                     setColumns(data.columns);
-                return (
-                    <Container>
-                        <BoardHeader/>
-                        <MainContent>
-                            <Boards/>
-                            {
-                                isNewColumn
-                                    ? <NewColumn createColumn={createColumn} removeColumn={removeColumn}/>
-                                    : <AddBoardButton addColumn={addNewColumn}/>
-                            }
-                        </MainContent>
-                    </Container>
-                );
-            }}
-        </Query>
+                    return (
+                        <>
+                            <BoardHeader/>
+                            <MainContent>
+                                <Columns/>
+                                <NewColumnContainer boardTitle={boardTitle}/>
+                            </MainContent>
+                        </>
+                    );
+                }}
+            </Query>
+        </Container>
     );
 });

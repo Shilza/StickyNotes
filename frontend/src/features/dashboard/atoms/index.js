@@ -1,4 +1,6 @@
 
 export {AddCardButton} from './AddCardButton';
-export {AddBoardButton} from './AddBoardButton';
+export {AddColumnButton} from './AddColumnButton';
 export {OptionsButton} from './OptionsButton';
+export {Mark} from './Mark';
+export {TextArea} from './TextArea';

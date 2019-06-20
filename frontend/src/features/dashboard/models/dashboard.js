@@ -19,10 +19,7 @@ const initialState = {
 };
 
 export const $dashboard = createStore(initialState)
-    .on(setColumns, (state, columns) => {
-        state.columns = columns;
-        return {...state};
-    })
+    .on(setColumns, (state, columns) => ({...state, columns}))
     .on(reorderColumns, (state, {oldIndex, newIndex}) => {
         const tempIndex = state.columns[oldIndex].index;
         state.columns[oldIndex].index = state.columns[newIndex].index;
@@ -32,13 +29,13 @@ export const $dashboard = createStore(initialState)
         return {...state};
     })
     .on(addRecord, (state, {columnId, record}) => {
-        state.columns.map((column, index) => {
+        const columns = state.columns.map((column, index) => {
             if (column.id === columnId)
                 state.columns[index].records.push(record);
 
             return column;
         });
-        return {...state};
+        return {...state, columns};
     })
     .on(addColumn, (state, column) => {
         if (!Array.isArray(column.records))
@@ -48,7 +45,7 @@ export const $dashboard = createStore(initialState)
         return {...state};
     })
     .on(reorderRecords, (state, {columnId, oldIndex, newIndex}) => {
-        state.columns.map(column => {
+        const columns = state.columns.map(column => {
             if (column.id === columnId) {
                 const tempIndex = column.records[oldIndex].index;
                 column.records[oldIndex].index = column.records[newIndex].index;
@@ -58,20 +55,23 @@ export const $dashboard = createStore(initialState)
             }
             return column;
         });
-        return {...state};
+        return {...state, columns};
     })
     .on(updateRecord, (state, {recordId, text}) => {
-        state.columns.forEach(column => {
-            column.records.forEach(record => {
+        const columns = state.columns.map(column => {
+            column.records = column.records.map(record => {
                 if (record.id === recordId)
                     record.text = text;
-            })
+
+                return record;
+            });
+            return column;
         });
-        return {...state};
+        return {...state, columns};
     })
     .on(removeColumn, (state, columnId) => {
-        state.columns = state.columns.filter(column => column.id !== columnId);
-        return {...state};
+        const columns = state.columns.filter(column => column.id !== columnId);
+        return {...state, columns};
     })
     .on(addMark, (state, {recordId, mark}) => {
         const index = state.columns.findIndex(column => column.records.find(record => record.id === recordId));
@@ -82,25 +82,28 @@ export const $dashboard = createStore(initialState)
         return {...state};
     })
     .on(removeMark, (state, markId) => {
-        state.columns.forEach(column => {
-            column.records.forEach(record => {
+        const columns = state.columns.map(column => {
+            column.records = column.records.map(record => {
                 record.marks = record.marks.filter(mark => mark.id !== markId);
+                return record;
             });
+            return column;
         });
-        return {...state};
+        return {...state, columns};
     })
     .on(renameColumn, (state, {columnId, title}) => {
-        state.columns.forEach(column => {
+        const column = state.columns.forEach(column => {
             if (column.id === columnId)
                 column.title = title;
+            return column;
         });
-        return {...state};
+        return {...state, column};
     })
     .on(removeRecord, (state, recordId) => {
-        state.columns = state.columns.map(column => {
+        const columns = state.columns.map(column => {
             column.records = column.records.filter(record => record.id !== recordId);
             return column;
         });
-        return {...state};
+        return {...state, columns};
     })
     .reset(resetDashboard);

@@ -9,6 +9,8 @@ import {$board, renameBoard} from "../models/board";
 import {useStore} from "effector-react";
 import {RENAME_BOARD} from "../api";
 import {withApollo} from "react-apollo";
+import {toast} from "react-toastify";
+import {getErrorMessage} from "../../common/utils";
 
 const Container = styled.div`
   position: relative;
@@ -18,7 +20,7 @@ const Container = styled.div`
   display: flex;
 `;
 
-const Btn = styled(Button)`
+const LocalButton = styled(Button)`
     position: relative;
     color: #fff;
     height: 30px;
@@ -61,37 +63,38 @@ export const BoardHeader = withApollo(({client}) => {
         setIsTitleEdited(true);
     };
 
-    const renameBoardd = async () => {
+    const rename = () => {
         const newTitle = titleRef.current.value;
 
-        if(newTitle !== title) {
-            await client.mutate({
+        if (newTitle !== title) {
+            client.mutate({
                 mutation: RENAME_BOARD,
                 variables: {
                     boardId: id,
                     title: newTitle
                 }
-            });
-            renameBoard(newTitle);
+            })
+                .then(() => renameBoard(newTitle))
+                .catch(error => toast.error(getErrorMessage(error)));
         }
         setIsTitleEdited(false);
     };
 
-    useOnClickOutside(titleRef, renameBoardd);
+    useOnClickOutside(titleRef, rename);
 
     return (
         <Container>
-            <HomeButton to='/boards'>
+            <HomeButton to='/boards' aria-label='Go to boards list'>
                 <SvgIcon name='home' viewBox='0 0 611.997 611.998' fill='#fff' width={'1.1em'} height={'1.1em'}/>
             </HomeButton>
             {
                 isTitleEdited
-                ? <Input ref={titleRef} defaultValue={title}/>
-                : <Btn onClick={editTitle}>{title}</Btn>
+                    ? <Input autoFocus ref={titleRef} defaultValue={title} height={'30px'}/>
+                    : <LocalButton onClick={editTitle} aria-label='Edit board title'>{title}</LocalButton>
             }
-            <Btn marginLeft='auto' onClick={openPopover}>
+            <LocalButton marginLeft='auto' onClick={openPopover} aria-label='Open board options'>
                 <Icon color='#fff' name={'ellipsis'}/>
-            </Btn>
+            </LocalButton>
             {
                 isPopoverOpen && <BoardPopover closePopover={closePopover}/>
             }

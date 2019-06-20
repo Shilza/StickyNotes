@@ -8,16 +8,14 @@ const Container = styled.div`
     border-radius: 3px;
     min-width: 270px;
     min-height: 85px;
-    padding: 4px 10px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     white-space: normal;
     margin: 0 10px;
 `;
 
-const TitleInput = styled.input`
-    
-`;
+const TitleInput = styled.input``;
 
 const AddButton = styled(Button)`
     background-color: #5aac44;
@@ -31,15 +29,16 @@ const AddButton = styled(Button)`
 `;
 
 
-export const NewColumn = ({removeColumn, createColumn}) => {
+export const NewColumn = ({closeNewColumn, createColumn}) => {
     const containerRef = useRef(null);
     const inputRef = useRef(null);
 
-    useOnClickOutside(containerRef, removeColumn);
+    useOnClickOutside(containerRef, closeNewColumn);
 
     const onClickAdd = async () => {
         await createColumn(inputRef.current.value);
-        inputRef.current.value = '';
+        if(inputRef.current)
+            inputRef.current.value = '';
     };
 
     return (

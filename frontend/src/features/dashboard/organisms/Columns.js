@@ -1,29 +1,32 @@
 import React from 'react';
-import {Board} from "./Board";
+import {Column} from "./Column";
 import {SortableContainer, SortableElement} from 'react-sortable-hoc';
 import {$dashboard, reorderColumns} from "../models/dashboard";
 import {useStore} from "effector-react";
 import styled from "styled-components";
 import {withApollo} from "react-apollo";
 import {REORDER_COLUMNS} from "../api";
+import {toast} from "react-toastify";
+import {getErrorMessage} from "../../common/utils";
 
 const ColumnsList = styled.ul`
     display: flex;
 `;
 
-export const Boards = withApollo(({client}) => {
+export const Columns = withApollo(({client}) => {
     const {columns} = useStore($dashboard);
 
-    const onSortEnd = async ({oldIndex, newIndex}) => {
-        if(newIndex !== oldIndex) {
+    const onSortEnd = ({oldIndex, newIndex}) => {
+        if (newIndex !== oldIndex) {
             reorderColumns({oldIndex, newIndex});
-            await client.mutate({
+            client.mutate({
                 mutation: REORDER_COLUMNS,
                 variables: {
                     oldIndex: columns[oldIndex].index,
                     newIndex: columns[newIndex].index
                 }
-            });
+            })
+                .catch(error => toast.error(getErrorMessage(error)));
         }
     };
 
@@ -32,7 +35,7 @@ export const Boards = withApollo(({client}) => {
     );
 });
 
-const SortableItem = SortableElement(({item}) => <Board item={item}/>);
+const SortableItem = SortableElement(({item}) => <Column item={item}/>);
 
 
 const SortableList = SortableContainer(({items}) => (

@@ -5,6 +5,8 @@ import styled from "styled-components";
 import {reorderRecords} from "../models/dashboard";
 import {REORDER_RECORDS} from "../api";
 import {withApollo} from "react-apollo";
+import {toast} from "react-toastify";
+import {getErrorMessage} from "../../common/utils";
 
 const CardsList = styled.ul`
    overflow-y: auto;
@@ -20,14 +22,14 @@ export const Cards = withApollo(({client, columnId, records}) => {
     const onSortEnd = async ({oldIndex, newIndex}) => {
         if(newIndex !== oldIndex) {
             reorderRecords({columnId, oldIndex, newIndex});
-            await client.mutate({
+            client.mutate({
                 mutation: REORDER_RECORDS,
                 variables: {
                     columnId,
                     oldIndex: records[oldIndex].index,
                     newIndex: records[newIndex].index
                 }
-            });
+            }).catch(error => toast.error(getErrorMessage(error)));
         }
     };
 
@@ -40,11 +42,8 @@ export const Cards = withApollo(({client, columnId, records}) => {
     );
 });
 
-const SortableItem = SortableElement(({item}) => (
-    <Card>
-        {item}
-    </Card>
-));
+const SortableItem = SortableElement(({item}) => <Card record={item}/>);
+
 
 const SortableList = SortableContainer(({items, containerRef}) => (
     <CardsList ref={containerRef}>
