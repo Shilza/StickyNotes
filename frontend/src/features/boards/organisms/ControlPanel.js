@@ -49,6 +49,8 @@ const CreateBoard = styled(Button)`
   }
 `;
 
+const iconStyle = {marginRight: '10px'};
+
 export const ControlPanel = () => {
     const {openPortal, closePortal, isOpen, Portal} = usePortal();
 
@@ -59,7 +61,7 @@ export const ControlPanel = () => {
     return (
         <Container>
             <LocalButton>
-                <SvgIcon name='board' viewBox="0 0 512.004 512.004" style={{marginRight: '10px'}}/>
+                <SvgIcon name='board' viewBox="0 0 512.004 512.004" style={iconStyle}/>
                 Boards
             </LocalButton>
             <CreateBoard onClick={openCloseModal}>

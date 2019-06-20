@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from "styled-components";
 import {Board} from "../molecules";
+import {$boards} from "../models/boards";
+import {useStore} from "effector-react";
 
 const Container = styled.div`
   display: flex;
@@ -15,7 +17,9 @@ const Container = styled.div`
   }
 `;
 
-export const BoardsList = ({boards}) => {
+export const BoardsList = () => {
+    let {boards} = useStore($boards);
+
     return (
         <Container>
             {

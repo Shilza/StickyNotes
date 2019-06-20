@@ -1,18 +1,20 @@
 import React, {useRef} from 'react';
 import styled from "styled-components";
-import {Button, ColorPicker, Modal} from "../../../ui/atoms";
+import {ColorPicker, LuminousButton, Modal} from "../../../ui/atoms";
 import {useOnClickOutside} from "../../dashboard/hooks";
 import {withApollo} from "react-apollo";
 import {Input} from "../../auth/atoms";
 import {CREATE_BOARD} from "../api";
 import {addBoard} from "../models/boards";
+import {toast} from 'react-toastify';
+import {getErrorMessage} from "../../common/utils";
 
 const ModalBody = styled.form`
      background: #f4f5f7;
      max-width: 340px;
-     height: 180px;
+     height: 200px;
      border-radius: 6px;
-     padding: 15px 15px 30px 15px;
+     padding: 15px;
      box-shadow: 5px 12px 50px 3px rgba(0,0,0,0.5);
      display: flex;
      flex-direction: column;
@@ -26,28 +28,18 @@ const Title = styled.div`
      text-align: center;
 `;
 
-const CreateButton = styled(Button)`
-    width: 100px;
-    height: 24px;
-    margin: 0;
-    color: #ffffff;
-    font-size: 14px;
-    line-height: 1.55;
-    font-weight: 600;
-    border-width: 1px;
-    border-radius: 3px;
-    background-color: #5fba4c;
-    background-position: center center;
-    border-color: transparent;
-    border-style: solid;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
-    box-shadow: 0 5px 20px 0 #52a041;
+const ChooseColor = styled.span`
+    margin-right: 15px;
 `;
 
 const DataContainer = styled.div`
+   position: relative;
    height: 35px;
+   width: 100%;
    display: flex;
    align-items: center;
+   padding: 0 5px;
+   cursor: pointer;
 `;
 
 export const NewBoardModal = withApollo(({closePortal, client}) => {
@@ -56,34 +48,42 @@ export const NewBoardModal = withApollo(({closePortal, client}) => {
     const colorRef = useRef(null);
     useOnClickOutside(modalBodyRef, closePortal);
 
-    const createBoard = async event => {
+    const createBoard = event => {
         event.preventDefault();
         const title = titleRef.current.value;
         const color = colorRef.current.value;
 
         if (title.length > 1 && title.length < 20 && color.length === 7) {
-            const result = await client.mutate({
+            client.mutate({
                 mutation: CREATE_BOARD,
                 variables: {
                     title,
                     color
                 }
-            });
-            addBoard(result.data.createBoard);
+            }).then(({data}) => {
+                addBoard(data.createBoard);
+            }).catch(error => toast.error(getErrorMessage(error)));
         }
 
         closePortal();
+    };
+
+    const onClickChooseColor = () => {
+        colorRef.current.click();
     };
 
     return (
         <Modal>
             <ModalBody ref={modalBodyRef} onSubmit={createBoard}>
                 <Title>Create board</Title>
-                <DataContainer>
+                <div>
                     <Input ref={titleRef} placeholder='Board title'/>
-                    <ColorPicker ref={colorRef} type='color' defaultValue='#0b7abb' style={{marginLeft: '5px'}}/>
-                </DataContainer>
-                <CreateButton type='submit'>Create</CreateButton>
+                    <DataContainer onClick={onClickChooseColor}>
+                        <ChooseColor>Choose color</ChooseColor>
+                        <ColorPicker ref={colorRef} type='color' defaultValue='#0b7abb'/>
+                    </DataContainer>
+                </div>
+                <LuminousButton type='submit' green margin={'0 0 5px 0'}>Create</LuminousButton>
             </ModalBody>
         </Modal>
     );
