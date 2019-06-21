@@ -7,7 +7,7 @@ import {Header} from "../features/common/organisms";
 import {toast, ToastContainer} from "react-toastify";
 
 const Routes = memo(() => (
-    <Router basename='/StickyNotes'>
+    <Router>
         <Header/>
         <Switch>
             {

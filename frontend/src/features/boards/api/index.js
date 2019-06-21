@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 export const GET_BOARDS  = gql`
-    query columns {
+    query boards {
         boards {
             id, title, color
         }

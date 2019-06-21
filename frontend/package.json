@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "apollo-boost": "^0.4.2",
+    "apollo-cache-inmemory": "^1.6.2",
+    "apollo-client": "^2.6.3",
+    "apollo-link-error": "^1.1.11",
+    "apollo-link-http": "^1.5.15",
     "array-move": "^2.1.0",
     "effector": "^19.1.0",
     "effector-react": "^19.0.0",
-    "gh-pages": "^2.0.1",
     "graphql": "^14.3.1",
     "graphql-tag": "^2.10.1",
     "normalize.css": "^8.0.1",
@@ -50,6 +52,5 @@
   "bugs": {
     "url": "https://github.com/Shilza/StickyNotes/issues"
   },
-  "homepage": "https://shilza.github.io/StickyNotes",
-  "proxy": "https://stickygraph.herokuapp.com"
+  "homepage": "https://shilza.github.io/StickyNotes"
 }
