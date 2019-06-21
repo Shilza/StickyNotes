@@ -10,7 +10,8 @@ import {GlobalStyle} from "./GlobalStyle";
 
 const client = new ApolloClient({
     fetchOptions: {
-        credentials: 'include'
+        credentials: 'include',
+        uri: 'https://stickygraph.herokuapp.com'
     }
 });
 
