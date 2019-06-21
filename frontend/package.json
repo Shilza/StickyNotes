@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "sticky-ynotes-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -43,5 +43,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:4000"
+  "proxy": "https://agile-stream-79962.herokuapp.com"
 }
