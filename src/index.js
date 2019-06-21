@@ -6,7 +6,7 @@ import http from 'http';
 import express from 'express';
 import {connectDb} from './models';
 import {server} from './server';
-const bodyParser = require('body-parser');
+import { bodyParserGraphQL } from 'body-parser-graphql'
 
 const app = express();
 
@@ -15,8 +15,7 @@ app.use(cors());
 
 app.use(cookieParser());
 
-app.use(/\/((?!graphql).)*/, bodyParser.urlencoded({ extended: true }));
-app.use(/\/((?!graphql).)*/, bodyParser.json());
+app.use(bodyParserGraphQL());
 
 //app.use(morgan('dev'));
 
