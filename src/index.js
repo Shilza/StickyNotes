@@ -15,7 +15,7 @@ app.use(cors());
 
 app.use(cookieParser());
 
-app.use(bodyParserGraphQL());
+app.use('/graphql', bodyParserGraphQL());
 
 //app.use(morgan('dev'));
 
