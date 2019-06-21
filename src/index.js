@@ -7,11 +7,7 @@ import express from 'express';
 import {connectDb} from './models';
 import {server} from './server';
 
-const bodyParser = require('body-parser');
-
 const app = express();
-
-app.use('/graphql', bodyParser.text());
 
 app.use('/graphql', (req, res, next) => {
     if (req.method === 'OPTIONS') {
