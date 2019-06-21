@@ -11,8 +11,8 @@ import {GlobalStyle} from "./GlobalStyle";
 const client = new ApolloClient({
     fetchOptions: {
         credentials: 'include',
-        uri: 'https://stickygraph.herokuapp.com'
-    }
+    },
+    uri: 'https://stickygraph.herokuapp.com/graphql'
 });
 
 ReactDOM.render(
