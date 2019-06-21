@@ -7,6 +7,7 @@
     "array-move": "^2.1.0",
     "effector": "^19.1.0",
     "effector-react": "^19.0.0",
+    "gh-pages": "^2.0.1",
     "graphql": "^14.3.1",
     "graphql-tag": "^2.10.1",
     "normalize.css": "^8.0.1",
@@ -26,7 +27,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,5 +46,10 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://agile-stream-79962.herokuapp.com"
+  "author": "Shilza",
+  "bugs": {
+    "url": "https://github.com/Shilza/StickyNotes/issues"
+  },
+  "homepage": "https://shilza.github.io/StickyNotes",
+  "proxy": "https://stickygraph.herokuapp.com"
 }

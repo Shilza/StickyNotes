@@ -23,7 +23,7 @@ const App = () => {
         <Query query={GET_ME}>
             {({data, loading, error}) => {
                 if (loading) return <Loader width='40px' height='40px' color='#fff' animationDuration='0.8'/>;
-                if (error) return <div>Error</div>;
+                if (error) return <div>Graph error</div>;
 
                 if (data.me)
                     setUser(data.me);
