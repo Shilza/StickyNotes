@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "apollo-boost": "^0.4.2",
+    "array-move": "^2.1.0",
     "effector": "^19.1.0",
     "effector-react": "^19.0.0",
     "graphql": "^14.3.1",
