@@ -14,12 +14,11 @@ app.use(cors());
 
 app.use(cookieParser());
 
+app.use(bodyParser.text({ type: 'text/plain' }));
+
 //app.use(morgan('dev'));
 
-server.applyMiddleware({app, cors: {
-        origin: '*',
-        credentials: true
-    }, path: '/graphql'});
+server.applyMiddleware({app, path: '/graphql'});
 
 const httpServer = http.createServer(app);
 server.installSubscriptionHandlers(httpServer);
