@@ -6,12 +6,17 @@ import http from 'http';
 import express from 'express';
 import {connectDb} from './models';
 import {server} from './server';
+const bodyParser = require('body-parser');
 
 const app = express();
+
 
 app.use(cors());
 
 app.use(cookieParser());
+
+app.use(/\/((?!graphql).)*/, bodyParser.urlencoded({ extended: true }));
+app.use(/\/((?!graphql).)*/, bodyParser.json());
 
 //app.use(morgan('dev'));
 
