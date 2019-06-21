@@ -2,6 +2,7 @@ import 'dotenv/config';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+import bodyParser from 'body-parser';
 import http from 'http';
 import express from 'express';
 import {connectDb} from './models';
@@ -11,11 +12,11 @@ import { bodyParserGraphQL } from 'body-parser-graphql'
 const app = express();
 
 
-app.use(cors());
+//app.use(cors());
 
 app.use(cookieParser());
 
-app.use('/graphql', bodyParserGraphQL());
+app.use('/graphql', bodyParser.json());
 
 //app.use(morgan('dev'));
 
