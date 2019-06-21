@@ -12,7 +12,7 @@ import { bodyParserGraphQL } from 'body-parser-graphql'
 const app = express();
 
 
-//app.use(cors());
+app.use(cors());
 
 app.use(cookieParser());
 
