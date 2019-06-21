@@ -16,14 +16,8 @@ const app = express();
 
 app.use(cookieParser());
 
-app.use('/graphql', bodyParser.json());
-
-app.use(express.static('./frontend/build'));
-
-app.get('/',function(req,res) {
-    res.sendFile('./frontend/build/index.html');
-});
 //app.use(morgan('dev'));
+app.use(bodyParser.text({ type: 'application/graphql' }));
 
 server.applyMiddleware({app, path: '/graphql'});
 
