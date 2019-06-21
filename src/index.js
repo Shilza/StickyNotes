@@ -7,17 +7,15 @@ import http from 'http';
 import express from 'express';
 import {connectDb} from './models';
 import {server} from './server';
-import { bodyParserGraphQL } from 'body-parser-graphql'
 
 const app = express();
-
 
 app.use(cors());
 
 app.use(cookieParser());
 
 //app.use(morgan('dev'));
-app.use('/graphql', bodyParser.text({ type: 'application/graphql' }));
+app.use(bodyParser())
 
 server.applyMiddleware({app, path: '/graphql'});
 
