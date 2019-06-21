@@ -17,7 +17,7 @@ app.use(cors());
 app.use(cookieParser());
 
 //app.use(morgan('dev'));
-app.use(bodyParser.text({ type: 'application/graphql' }));
+app.use('/graphql', bodyParser.text({ type: 'application/graphql' }));
 
 server.applyMiddleware({app, path: '/graphql'});
 
