@@ -37,7 +37,11 @@ export default {
                 password,
             });
 
-            const options = {expires: new Date(Date.now() + 86400000), httpOnly: true};
+            const options = {
+                expires: new Date(Date.now() + 86400000),
+                httpOnly: true,
+                path: '/'
+            };
             const token = await createToken(user, secret, '24h');
             res.cookie('token', token, options);
 
@@ -61,7 +65,11 @@ export default {
             if (!isValid)
                 throw new AuthenticationError('Invalid password.');
 
-            const options = {expires: new Date(Date.now() + 86400000), httpOnly: true};
+            const options = {
+                expires: new Date(Date.now() + 86400000),
+                httpOnly: true,
+                path: '/'
+            };
             const token = await createToken(user, secret, '24h');
             res.cookie('token', token, options);
 
