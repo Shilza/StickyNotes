@@ -1,4 +1,5 @@
 import {ApolloServer} from "apollo-server-express";
+import {AuthenticationError} from 'apollo-server';
 import schema from "./schema";
 import resolvers from "./resolvers";
 import models from "./models";
