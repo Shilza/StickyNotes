@@ -6,7 +6,7 @@ import Routes from "./routes";
 import {ThemeProvider} from "styled-components";
 import {useStore} from "effector-react";
 import {$board} from "./features/dashboard/models/board";
-import {Loader} from "./ui/atoms";
+import {LoadingPage} from "./ui/pages";
 
 const GET_ME = gql`
     query me {
@@ -22,7 +22,7 @@ const App = () => {
     return (
         <Query query={GET_ME}>
             {({data, loading, error}) => {
-                if (loading) return <Loader width='40px' height='40px' color='#fff' animationDuration='0.8'/>;
+                if (loading) return <LoadingPage/>;
                 if (error)
                     return <div>Graph error</div>;
 
