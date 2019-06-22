@@ -8,6 +8,7 @@ import {withApollo} from "react-apollo";
 import {REORDER_COLUMNS} from "../api";
 import {toast} from "react-toastify";
 import {getErrorMessage} from "../../common/utils";
+import {$board} from "../models/board";
 
 const ColumnsList = styled.ul`
     display: flex;
@@ -15,6 +16,7 @@ const ColumnsList = styled.ul`
 
 export const Columns = withApollo(({client}) => {
     const {columns} = useStore($dashboard);
+    const {id: boardId} = useStore($board);
 
     const onSortEnd = ({oldIndex, newIndex}) => {
         if (newIndex !== oldIndex) {
@@ -22,6 +24,7 @@ export const Columns = withApollo(({client}) => {
             client.mutate({
                 mutation: REORDER_COLUMNS,
                 variables: {
+                    boardId,
                     oldIndex: columns[oldIndex].index,
                     newIndex: columns[newIndex].index
                 }

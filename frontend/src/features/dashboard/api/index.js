@@ -79,8 +79,8 @@ export const REMOVE_RECORD = gql`
 `;
 
 export const REORDER_COLUMNS = gql`
-    mutation reorderColumns($oldIndex: Int!, $newIndex: Int!) {
-        reorderColumns(oldIndex: $oldIndex, newIndex: $newIndex)
+    mutation reorderColumns($boardId: ID!, $oldIndex: Int!, $newIndex: Int!) {
+        reorderColumns(boardId: $boardId, oldIndex: $oldIndex, newIndex: $newIndex)
     }
 `;
 
