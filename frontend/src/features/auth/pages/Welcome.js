@@ -22,6 +22,7 @@ const AuthSide = styled.div`
     padding: 50px;
     width: 40%;
     max-width: 500px;
+    min-height: 500px;
     align-items: center;
     flex-direction: column;
     

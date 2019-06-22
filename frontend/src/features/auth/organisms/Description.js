@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import stickyNotes from "./stickyNotes.png";
+import stickyNotes from "./stickyNotes.webp";
 import {Button} from "../../../ui/atoms";
 
 const Container = styled.div`

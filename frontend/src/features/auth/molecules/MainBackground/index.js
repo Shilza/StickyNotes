@@ -1,11 +1,12 @@
 import React from "react";
+import paper from './paper.webp';
 import styled from "styled-components";
 
 const Container = styled.div`
     position: relative;
     height: 100vh;
     width: 100%;
-    background-image: url(https://cdn.pixabay.com/photo/2018/03/20/10/55/paper-3242863_960_720.jpg);
+    background-image: url(${paper});
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
