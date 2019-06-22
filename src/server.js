@@ -22,10 +22,6 @@ const getMe = async req => {
 };
 
 export const server = new ApolloServer({
-    cors: {
-        origin: '*',
-        credentials: true
-    },
     introspection: true,
     typeDefs: schema,
     resolvers,

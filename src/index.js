@@ -1,8 +1,6 @@
 import 'dotenv/config';
-import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import morgan from 'morgan';
-import bodyParser from 'body-parser';
+import path from 'path';
 import http from 'http';
 import express from 'express';
 import {connectDb} from './models';
@@ -10,15 +8,20 @@ import {server} from './server';
 
 const app = express();
 
-app.use(cors());
-
 app.use(cookieParser());
 
-app.use(bodyParser.text({ type: 'text/plain' }));
+app.use(express.static(path.resolve(__dirname, '../frontend/build/')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+});
 
 //app.use(morgan('dev'));
 
-server.applyMiddleware({app, path: '/graphql'});
+server.applyMiddleware({
+    app,
+    path: '/graphql'
+});
 
 const httpServer = http.createServer(app);
 server.installSubscriptionHandlers(httpServer);
