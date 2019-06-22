@@ -91,10 +91,14 @@ export default {
 
         reorderColumns: async (
             parent,
-            {boardTitle, oldIndex, newIndex},
+            {boardId, oldIndex, newIndex},
             {models, me}
         ) => {
-            const boardId = (await models.Board.findOne({title: boardTitle, ownerId: me.id})).id;
+            const board = await models.Board.findOne({_id: boardId, ownerId: me.id});
+
+            if(Object.is(board, null))
+                throw new ForbiddenError('Only owner can reorder lists');
+
             const columns = await models.Column.findByIndex(
                 Math.min(oldIndex, newIndex) - 1, Math.max(oldIndex, newIndex) + 1, me.id, boardId
             );
