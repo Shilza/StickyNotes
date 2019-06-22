@@ -99,17 +99,18 @@ var _default = {
       return true;
     },
     reorderColumns: async (parent, {
-      boardTitle,
+      boardId,
       oldIndex,
       newIndex
     }, {
       models,
       me
     }) => {
-      const boardId = (await models.Board.findOne({
-        title: boardTitle,
+      const board = await models.Board.findOne({
+        _id: boardId,
         ownerId: me.id
-      })).id;
+      });
+      if (Object.is(board, null)) throw new _apolloServer.ForbiddenError('Only owner can reorder lists');
       const columns = await models.Column.findByIndex(Math.min(oldIndex, newIndex) - 1, Math.max(oldIndex, newIndex) + 1, me.id, boardId);
       let promises = [];
       if (newIndex > oldIndex) columns.forEach((column, index) => {
