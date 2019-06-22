@@ -67,6 +67,10 @@ export default {
             if(title.length === 0 || title.length > 20)
                 throw new ValidationError('Title is invalid');
 
+            const existedBoard = await models.Board.findOne({ownerId: me.id, title});
+            if(!Object.is(existedBoard, null))
+                throw new ValidationError(`Board with title ${title} already exists`);
+
             await models.Board.findByIdAndUpdate(boardId,
                 {title: validator.escape(validator.trim(title))}
                 );
