@@ -1,2 +1,2 @@
 
-export {Welcome} from './Welcome';
+export {Welcome as default} from './Welcome';

@@ -1,2 +1,2 @@
 
-export {Boards} from './pages';
+export {Boards as default} from './pages';

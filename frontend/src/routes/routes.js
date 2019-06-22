@@ -1,7 +1,9 @@
-import {Welcome} from "../features/auth/pages";
-import {Dashboard} from "../features/dashboard";
-import {NotFound} from "../features/common/pages";
-import {Boards} from "../features/boards";
+import React from 'react';
+
+const Boards = React.lazy(() => import('../features/boards'));
+const NotFound = React.lazy(() => import('../features/common/pages'));
+const Dashboard = React.lazy(() => import('../features/dashboard'));
+const Welcome = React.lazy(() => import('../features/auth/pages'));
 
 export const routes = [
     {

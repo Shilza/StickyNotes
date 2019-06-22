@@ -1,2 +1,2 @@
 
-export {Dashboard} from './pages';
+export {Dashboard as default} from './pages';

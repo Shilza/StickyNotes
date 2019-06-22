@@ -30,7 +30,6 @@ export const SignInForm = withRouter(withApollo(({client, history}) => {
             history.push('/boards');
         } catch(error) {
             toast.error(getErrorMessage(error));
-        } finally {
             setIsLoading(false);
         }
     };

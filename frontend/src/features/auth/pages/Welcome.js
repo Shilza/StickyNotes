@@ -50,19 +50,17 @@ const AuthFormContainer = styled.div`
     }
 `;
 
-export const Welcome = () => {
-    return (
-        <MainContainer>
-            <Container>
-                <MainBackground/>
-                <AuthSide>
-                    <AuthFormContainer>
-                        <Logo>StickyNotes</Logo>
-                        <AuthForm/>
-                    </AuthFormContainer>
-                </AuthSide>
-            </Container>
-            <Description/>
-        </MainContainer>
-    )
-};
+export const Welcome = () => (
+    <MainContainer>
+        <Container>
+            <MainBackground/>
+            <AuthSide>
+                <AuthFormContainer>
+                    <Logo>StickyNotes</Logo>
+                    <AuthForm/>
+                </AuthFormContainer>
+            </AuthSide>
+        </Container>
+        <Description/>
+    </MainContainer>
+);

@@ -23,8 +23,7 @@ const App = () => {
         <Query query={GET_ME}>
             {({data, loading, error}) => {
                 if (loading) return <LoadingPage/>;
-                if (error)
-                    return <div>Graph error</div>;
+                if (error) return <div>Graph server error</div>;
 
                 if (data.me)
                     setUser(data.me);
