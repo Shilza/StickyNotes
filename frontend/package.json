@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apollo-boost": "^0.4.3",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "^2.6.3",
     "apollo-link-error": "^1.1.11",
@@ -52,5 +53,5 @@
   "bugs": {
     "url": "https://github.com/Shilza/StickyNotes/issues"
   },
-  "homepage": "https://shilza.github.io/StickyNotes"
+  "proxy": "http://localhost:4000"
 }
