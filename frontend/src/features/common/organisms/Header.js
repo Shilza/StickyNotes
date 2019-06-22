@@ -16,7 +16,11 @@ const Container = styled.header`
     width: 100%;
     height: 40px;
     box-shadow: inset 0 4px 8px -3px rgba(17, 17, 17, .06);
-    background-color: ${props => window.location.pathname === '/boards' ? '#028ee0' : props.theme.backgroundColor};
+    background-color: ${
+        props => window.location.pathname === '/boards' || !props.theme.backgroundColor
+            ? '#028ee0'
+            : props.theme.backgroundColor
+    };
     display: flex;
     justify-content: space-between;
     padding: 4px 20px;

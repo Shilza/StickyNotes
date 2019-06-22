@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {useOnClickOutside} from "../hooks";
 import {Button} from "../../../ui/atoms";
 
-const Container = styled.div`
+const Container = styled.form`
     background: #dfe1e6;
     border-radius: 3px;
     min-width: 270px;
@@ -35,16 +35,17 @@ export const NewColumn = ({closeNewColumn, createColumn}) => {
 
     useOnClickOutside(containerRef, closeNewColumn);
 
-    const onClickAdd = async () => {
+    const create = async event => {
+        event.preventDefault();
         await createColumn(inputRef.current.value);
         if(inputRef.current)
             inputRef.current.value = '';
     };
 
     return (
-        <Container ref={containerRef}>
+        <Container ref={containerRef} onSubmit={create}>
             <TitleInput ref={inputRef}/>
-            <AddButton onClick={onClickAdd}>Add list</AddButton>
+            <AddButton>Add list</AddButton>
         </Container>
     );
 };

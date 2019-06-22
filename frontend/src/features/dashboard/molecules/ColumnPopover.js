@@ -34,13 +34,13 @@ export const ColumnPopover = withApollo(({closePopover, columnId, client, op}) =
     return (
         <Popover ref={popoverRef}>
             <PopoverTitle>Actions with list</PopoverTitle>
+            <PopoverButton onClick={op}>Rename list</PopoverButton>
             <PopoverButton onClick={remove} disabled={isLoading}>
                 Remove list
                 {
                     isLoading && <Loader color='#fff'/>
                 }
             </PopoverButton>
-            <PopoverButton onClick={op}>Rename list</PopoverButton>
         </Popover>
     );
 });

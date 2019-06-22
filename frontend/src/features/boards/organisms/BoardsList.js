@@ -9,6 +9,7 @@ const Container = styled.div`
   flex-wrap: wrap;
   margin: 0 20px;
   transition: 100ms;
+  height: 100%;
   
   @media (max-width: 425px) {
       margin-top: 15px;

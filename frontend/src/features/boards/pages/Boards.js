@@ -10,7 +10,8 @@ const Container = styled.div`
     background-color: #fafbfc;
     padding: 20px 10px;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 40px);
+    overflow-x: auto;
 `;
 
 const Main = styled.div`

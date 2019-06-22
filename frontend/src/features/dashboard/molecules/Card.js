@@ -46,7 +46,7 @@ const EditButton = styled(Button)`
 `;
 
 export const Card = ({record}) => {
-    let [isEditHovered, setIsEditHovered] = useState(false);
+    let [isHovered, setIsEditHovered] = useState(false);
     const {openPortal, closePortal, isOpen, Portal} = usePortal();
 
     const modalOpenClose = () => {
@@ -61,7 +61,7 @@ export const Card = ({record}) => {
             <MiniMarks recordId={record.id}/>
             {record.text}
             {
-                isEditHovered &&
+                isHovered &&
                 <EditButton onClick={modalOpenClose}>
                     <Icon name='edit'/>
                 </EditButton>
