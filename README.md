@@ -2,12 +2,11 @@
 
 # Sticky Notes
 
-Tool that organizes your projects into boards
+Tool that organizes your projects into boards. View [Demo](https://stickygraph.herokuapp.com)
 
-Login details: 
-Username: test
-Password: testtest
-View [Demo](https://stickygraph.herokuapp.com)
+Login details:
+* Username: test
+* Password: testtest
 
 # Install
 1. git clone https://github.com/Shilza/StickyNotes
