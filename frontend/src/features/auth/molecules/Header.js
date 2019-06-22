@@ -32,13 +32,13 @@ export const Header = ({setIsSignIn, isSignIn}) => {
                 onClick={setSingIn}
                 active={isSignIn}
             >
-                SignIn
+                Sign In
             </Location>
             <Location
                 onClick={setSignUp}
                 active={!isSignIn}
             >
-                SignUp
+                Sign Up
             </Location>
         </Container>
     );
