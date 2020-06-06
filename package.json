@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "apollo-server": "^2.2.3",
-    "apollo-server-express": "^2.2.3",
+    "apollo-server-express": "^2.14.2",
     "array-move": "^2.1.0",
     "bcrypt": "^3.0.2",
     "cookie-parser": "^1.4.4",
